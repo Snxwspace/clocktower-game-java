@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Controller {
     private Scanner sc;
+    private Game game;
 
     public Controller() {
         sc = new Scanner(System.in);
