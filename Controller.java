@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
-    // TODO scripts  --Snow
     public static void main(String[] args) {
         // Filling basic variables
         Scanner sc = new Scanner(System.in);
@@ -59,6 +58,7 @@ public class Controller {
     }
 
     public static ArrayList<PlayerCharacter> scriptTroubleBrewing() {
+        // TODO scripts
         return null; // to satisfy the computer while I wait for PlayerCharacter to finish
     }
 }

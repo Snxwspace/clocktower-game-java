@@ -13,7 +13,7 @@ public class Game {
         for(int i = 0; i < players.length; i++) {
             System.out.println("Player " + i+1 + " Name: ");
             String name = sc.nextLine();
-            // probably more things to instantiate Player objects
+            // probably more things to set up Player objects
             players[i] = new Player(name);
         }
     }
