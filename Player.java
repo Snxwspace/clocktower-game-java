@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Player {
     private boolean isAlive;
     private boolean hasGhostVote;
@@ -8,13 +11,27 @@ public class Player {
     private boolean canNominate;
     private boolean canBeNominated;
 
-    public Player(String name) {
+    public Player(String name, PlayerCharacter character) {
         isAlive = true;
         hasGhostVote = true;
         canNominate = true;
         canBeNominated = true;
         this.name = name;
-        // TODO define character and alignment
+        this.character = character;
+        this.alignment = character.getBaseAlignemnt();
+    }
+
+    public Player(String name, ArrayList<PlayerCharacter> characterOptions, Random rand) {
+        isAlive = true;
+        hasGhostVote = true;
+        canNominate = true;
+        canBeNominated = true;
+        this.name = name;
+        
+        int i = rand.nextInt(0, characterOptions.size());
+        this.character = characterOptions.get(i);
+        
+        this.alignment = character.getBaseAlignemnt();
     }
 
     // getters

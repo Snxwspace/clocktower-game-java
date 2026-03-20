@@ -53,8 +53,10 @@ public class Controller {
         game = new Game(numPlayers);
 
         // TODO choosing characters that are in play (requires PlayerCharacter)
+            // choice between randomly generating and choosing characters
 
         // TODO filling in the player information (requires PlayerCharacter, Player)
+            // choice between rigging the bag and randomly giving characters?
     }
 
     public static ArrayList<PlayerCharacter> scriptTroubleBrewing() {
