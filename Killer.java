@@ -1,5 +1,5 @@
 public class Killer extends PlayerCharacter {
-    public Killer(char charType, boolean actsFirstNight, boolean actsOtherNights) {
-        super(charType, actsFirstNight, actsOtherNights);
+    public Killer(char charType, String name, boolean actsFirstNight, boolean actsOtherNights) {
+        super(charType, name, actsFirstNight, actsOtherNights);
     }
 }

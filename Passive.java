@@ -1,5 +1,5 @@
 public class Passive extends PlayerCharacter {
-    public Passive(char charType) {
-        super(charType);
+    public Passive(char charType, String name) {
+        super(charType, name);
     }
 }
