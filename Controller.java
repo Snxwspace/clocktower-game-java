@@ -1,7 +1,17 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class holds a static method that is the method that gets run
+ * every time the entire program runs.
+ * 
+ * @author Snow Shiosaki, Will Lachance
+ * @version 2026-22-03
+ */
 public class Controller {
+    /**
+     * This method is the method that gets run when the program runs.
+     */
     public static void main(String[] args) {
         // Filling basic variables
         Scanner sc = new Scanner(System.in);
@@ -59,6 +69,11 @@ public class Controller {
             // choice between rigging the bag and randomly giving characters?
     }
 
+    /**
+     * This method returns an array of the characters on the script Trouble Brewing.
+     * 
+     * @return  scriptCharacters    array of characters on the script
+     */
     public static ArrayList<PlayerCharacter> scriptTroubleBrewing() {
         // TODO scripts
         return null; // to satisfy the computer while I wait for PlayerCharacter to finish

@@ -3,16 +3,35 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * An instance of this class represents one game of Blood on the Clocktower.
+ * An array of type Player is held, where each Player is a player in the game, sat in a clockwise order.
+ * An instance also holds an object to help with randomly generating things.
+ * 
+ * @author Snow Shiosaki, Will Lachance
+ * @version 2026-22-03
+ */
 public class Game {
     private Player[] players;
     private Random rand = new Random();
 
+    /**
+     * Constructor for Game objects.
+     * 
+     * @param   numPlayers  number of players that will be playing
+     */
     public Game(int numPlayers) {
         players = new Player[numPlayers];
     }
 
-    // WHY ARE WE RETURNING PLAYERCHARACTER????? WHY DID I MAKE THIS DECISION????
-    public PlayerCharacter fillPlayerArray(Scanner sc, ArrayList<PlayerCharacter> availableCharacters, boolean isFullRandom) {
+    /**
+     * This method loops through the (likely empty) array of Players and fills it with Player objects.
+     * 
+     * @param   sc  Scanner object to read inputs from the console
+     * @param   availableCharacters ArrayList of characters that are available to be chosen for players
+     * @param isFullRandom  Boolean representing if assigning characters is fully random
+     */
+    public void fillPlayerArray(Scanner sc, ArrayList<PlayerCharacter> availableCharacters, boolean isFullRandom) {
         sc.nextLine();  // clear buffer
         System.out.println(
             "Please answer the questions about each player going in clockwise order. " +
@@ -28,9 +47,17 @@ public class Game {
                 players[i] = new Player(name, availableCharacters, rand);
             }
         }
-        return null;
     }
 
+    /**
+     * This method goes through the bag of available characters and lets the user choose how to determine the role
+     * of the specific player.
+     * 
+     * @param   sc  Scanner object to read inputs from the console
+     * @param   availableCharacters ArrayList of characters that are available to be chosen for players
+     * @param   playerName  String that holds the name of the player whose role is currently being assigned
+     * @return  player  Initialized Player object with the chosen role
+     */
     private Player rigBag(Scanner sc, ArrayList<PlayerCharacter> availableCharacters, String playerName) {
         sc.nextLine(); // clear buffer
         int choice;
@@ -179,6 +206,11 @@ public class Game {
         return player;
     }
 
+    /**
+     * Prints the current list of available characters to be chosen on one line.
+     * 
+     * @param   availableCharacters ArrayList of characters that are available to be chosen for players.
+     */
     private void printCharacters(ArrayList<PlayerCharacter> availableCharacters) {
         System.out.print("The current available characters are: ");
         for(PlayerCharacter p : availableCharacters) {
