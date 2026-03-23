@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class Game {
     private Player[] players;
     private Random rand = new Random();
+    private boolean isNight;
 
     /**
      * Constructor for Game objects.
@@ -22,6 +23,7 @@ public class Game {
      */
     public Game(int numPlayers) {
         players = new Player[numPlayers];
+        isNight = true;
     }
 
     /**
@@ -29,7 +31,7 @@ public class Game {
      * 
      * @param   sc  Scanner object to read inputs from the console
      * @param   availableCharacters ArrayList of characters that are available to be chosen for players
-     * @param isFullRandom  Boolean representing if assigning characters is fully random
+     * @param   isFullRandom    Boolean representing if assigning characters is fully random
      */
     public void fillPlayerArray(Scanner sc, ArrayList<PlayerCharacter> availableCharacters, boolean isFullRandom) {
         sc.nextLine();  // clear buffer

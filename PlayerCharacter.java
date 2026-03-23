@@ -5,7 +5,7 @@
  * It also holds the name of the character, and booleans for if the character would wake 
  * up on the first night and if they would wake up on other night.
  */
-public class PlayerCharacter {
+public class PlayerCharacter implements Ability {
     private final char characterType; // 't' for townsfolk, 'o' for outsider, 'm' for minion, 'd' for demon
     private final char baseAlignment; // 'g' for good, 'e' for evil
     private final String name;
