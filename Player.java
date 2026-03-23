@@ -88,11 +88,11 @@ public class Player {
 
     public boolean getProtected() { return isProtected; }
 
-    public void setProtected(boolean p){isProtected = p; }
+    public void setProtected(boolean p){ isProtected = p; }
     
     public boolean getPoisoned() { return isPoisoned; }
 
-    public void setPoisoned(boolean p){isPoisoned = p; }
+    public void setPoisoned(boolean p){ isPoisoned = p; }
 
     /**
      * Gets whether the player can vote on the current nomination.

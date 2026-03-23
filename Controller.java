@@ -18,7 +18,6 @@ public class Controller {
         Game game;
         ArrayList<PlayerCharacter> script = null;
 
-        // TODO fill out these messages
         System.out.println("Welcome to Blood on the Clocktower!");
 
         // This do-while loop will keep looping until the user chooses a script to play

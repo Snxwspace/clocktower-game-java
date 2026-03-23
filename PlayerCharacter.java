@@ -1,3 +1,6 @@
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  * An instance of this class represents one character, or role, that a player can be.
  * It holds the type of character they are in a char, 't' meaning Townsfolk, 
@@ -5,7 +8,7 @@
  * It also holds the name of the character, and booleans for if the character would wake 
  * up on the first night and if they would wake up on other night.
  */
-public class PlayerCharacter{
+public class PlayerCharacter {
     protected final char characterType; // 't' for townsfolk, 'o' for outsider, 'm' for minion, 'd' for demon
     protected char baseAlignment; 
     protected boolean canAct; //declares if someone can take an action
@@ -63,4 +66,6 @@ public class PlayerCharacter{
      * @return  
      */
     public boolean getCanAct() { return canAct; } 
+
+    public void useAbility(Scanner sc, Player[] players, Random rand) {}
 }
