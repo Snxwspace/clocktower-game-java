@@ -29,7 +29,7 @@ public class Player {
         canBeNominated = true;
         this.name = name;
         this.character = character;
-        this.alignment = character.getBaseAlignemnt();
+        this.alignment = character.getBaseAlignment();
     }
 
     /**
@@ -49,7 +49,7 @@ public class Player {
         int i = rand.nextInt(0, characterOptions.size());
         this.character = characterOptions.get(i);
         
-        this.alignment = character.getBaseAlignemnt();
+        this.alignment = character.getBaseAlignment();
     }
 
     /**
@@ -57,7 +57,7 @@ public class Player {
      * @return  isAlive Boolean value for whether the character is alive
      */
     public boolean getIsAlive() { return isAlive; }
-    
+
     /**
      * Gets the current alignment of the player
      * @return  alignment   char primitive object representing the current alignment of the player. 'g' means good, 'e' means evil.

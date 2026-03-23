@@ -81,7 +81,7 @@ public class PlayerCharacter {
      * @return  baseAlignment   The alignment of the character by default.
      *      'g' for good-aligned, and 'e' for evil-aligned.
      */
-    public char getBaseAlignemnt() { return baseAlignment; }
+    public char getBaseAlignment() { return baseAlignment; }
 
     /**
      * Gets the name of the character.
