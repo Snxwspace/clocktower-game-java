@@ -19,7 +19,7 @@ public class Controller {
         ArrayList<PlayerCharacter> script = null;
 
         // TODO fill out these messages
-        System.out.println(""); // Welcome statement
+        System.out.println("Welcome to Blood on the Clocktower!");
 
         // This do-while loop will keep looping until the user chooses a script to play
         do {
@@ -75,7 +75,38 @@ public class Controller {
      * @return  scriptCharacters    array of characters on the script
      */
     public static ArrayList<PlayerCharacter> scriptTroubleBrewing() {
-        // TODO scripts
-        return null; // to satisfy the computer while I wait for PlayerCharacter to finish
+                ArrayList<PlayerCharacter> characters = new ArrayList<>();
+
+        //Townsfolk
+        characters.add(new Passive('t', "Washerwoman"));
+        characters.add(new Passive('t', "Librarian"));
+        characters.add(new Investigator('t', "Investigator"));
+        characters.add(new Passive('t', "Chef"));
+        characters.add(new Passive('t', "Empath"));
+        characters.add(new Passive('t', "Fortune Teller"));
+        characters.add(new Passive('t', "Undertaker"));
+        characters.add(new Monk('t', "Monk"));
+        characters.add(new Passive('t', "Ravenkeeper"));
+        characters.add(new Passive('t', "Virgin"));
+        characters.add(new Passive('t', "Slayer"));
+        characters.add(new Passive('t', "Soldier"));
+        characters.add(new Passive('t', "Mayor"));
+
+        //Outsiders
+        characters.add(new Passive('o', "Butler"));
+        characters.add(new Passive('o', "Drunk"));
+        characters.add(new Passive('o', "Recluse"));
+        characters.add(new Passive('o', "Saint"));
+
+        //Minions
+        characters.add(new Poisoner('m', "Poisoner"));
+        characters.add(new Passive('m', "Spy"));
+        characters.add(new Passive('m', "Scarlet Woman"));
+        characters.add(new Passive('m', "Baron"));
+
+        //Demons
+        characters.add(new Imp('d', "Imp"));
+
+        return characters; // to satisfy the computer while I wait for PlayerCharacter to finish
     }
 }

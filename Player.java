@@ -12,6 +12,8 @@ public class Player {
     private char alignment; // 'g' for good, 'e' for evil
     private PlayerCharacter character;
     private String name;
+    private boolean isProtected;
+    private boolean isPoisoned;
 
     private boolean canNominate;
     private boolean canBeNominated;
@@ -27,6 +29,8 @@ public class Player {
         hasGhostVote = true;
         canNominate = true;
         canBeNominated = true;
+        isProtected = false;
+        isPoisoned = false;
         this.name = name;
         this.character = character;
         this.alignment = character.getBaseAlignment();
@@ -82,6 +86,13 @@ public class Player {
      */
     public boolean getCanBeNominated() { return canBeNominated; }
 
+    public boolean getProtected() { return isProtected; }
+
+    public void setProtected(boolean p){isProtected = p; }
+    
+    public boolean getPoisoned() { return isPoisoned; }
+
+    public void setPoisoned(boolean p){isPoisoned = p; }
 
     /**
      * Gets whether the player can vote on the current nomination.
@@ -104,6 +115,7 @@ public class Player {
             canNominate = false;
         }
     }
+    
     
     /**
      * Revives the player. If the player is already alive, nothing happens.

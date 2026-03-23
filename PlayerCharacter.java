@@ -5,49 +5,21 @@
  * It also holds the name of the character, and booleans for if the character would wake 
  * up on the first night and if they would wake up on other night.
  */
-public class PlayerCharacter implements Ability {
-    private final char characterType; // 't' for townsfolk, 'o' for outsider, 'm' for minion, 'd' for demon
-    private final char baseAlignment; // 'g' for good, 'e' for evil
-    private final String name;
-    
-    private final boolean actsFirstNight;
-    private final boolean actsOtherNights;
+public class PlayerCharacter{
+    protected final char characterType; // 't' for townsfolk, 'o' for outsider, 'm' for minion, 'd' for demon
+    protected char baseAlignment; 
+    protected boolean canAct; //declares if someone can take an action
+    protected boolean picksPlayer; //declares if someone's role requires them to picj a player
+    protected boolean guarded;
+    protected String name;
 
     /**
      * Constructor for the PlayerCharacter class. This will be used if the character will wake up at 
      * some point throughout the night due to their ability.
      * 
      * @param   charType    The type of character. 't' for Townsfolk, 'o' for Outsiders, 'm' for Minions, and 'd' for Demons.
-     * @param   name    The name of the character.
-     * @param   actsFirstNight  A boolean value holding whether or not they may wake up due to their ability on the first night.
-     * @param   actsOtherNights A boolean value holding whether or not they may wake up due to their ability on other nights.
-     */
-    public PlayerCharacter(char charType, String name, boolean actsFirstNight, boolean actsOtherNights) {
-        this.characterType = charType;
-        switch (charType) {
-            case 't':
-            case 'o':
-                this.baseAlignment = 'g';
-                break;
-            case 'm':
-            case 'd':
-                this.baseAlignment = 'e';
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid character type."); // yeah ik travellers would throw this but they don't exist they're fake characters actually
-        }
-        this.name = name;
-
-        this.actsFirstNight = actsFirstNight;
-        this.actsOtherNights = actsOtherNights;
-    }
-
-    /**
-     * Constructor for the PlayerCharacter class. This will be used if the character will not wake up
-     * due to their ability at any point throughout the game.
-     * 
-     * @param   charType    The type of character. 't' for Townsfolk, 'o' for Outsiders, 'm' for Minions, and 'd' for Demons.
-     * @param   name    The name of the character.
+     * @param   canAct      Clarifies if a character can act at any given point in the game
+     * @param   picksPlayer Clarifies if a character picks a player as part of their action
      */
     public PlayerCharacter(char charType, String name) {
         this.characterType = charType;
@@ -61,12 +33,9 @@ public class PlayerCharacter implements Ability {
                 this.baseAlignment = 'e';
                 break;
             default:
-                throw new IllegalArgumentException("Invalid character type."); // yeah ik travellers would throw this but they don't exist they're fake characters actually
+                throw new IllegalArgumentException("Invalid character type.");
         }
         this.name = name;
-
-        this.actsFirstNight = false;
-        this.actsOtherNights = false;
     }
 
     /**
@@ -82,10 +51,16 @@ public class PlayerCharacter implements Ability {
      *      'g' for good-aligned, and 'e' for evil-aligned.
      */
     public char getBaseAlignment() { return baseAlignment; }
-
+    
     /**
      * Gets the name of the character.
      * @return  name    The name of the character.
      */
     public String getName() { return name; } 
+    
+    /**
+     * 
+     * @return  
+     */
+    public boolean getCanAct() { return canAct; } 
 }

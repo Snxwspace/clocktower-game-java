@@ -61,7 +61,6 @@ public class Game {
      * @return  player  Initialized Player object with the chosen role
      */
     private Player rigBag(Scanner sc, ArrayList<PlayerCharacter> availableCharacters, String playerName) {
-        sc.nextLine(); // clear buffer
         int choice;
         Player player = null;
         while(player == null) {
@@ -74,6 +73,7 @@ public class Game {
             switch(choice) {
                 case 1:
                     player = new Player(playerName, availableCharacters, rand);
+                    break;
                 case 2:
                     int characterChoice;
                     do {
@@ -105,8 +105,11 @@ public class Game {
                         printCharacters(newBag);
 
                         while(it.hasNext()) {
-                            boolean isValid;
+                            boolean isValid = false;
                             PlayerCharacter character = it.next();
+                            it = newBag.iterator(); //makes cycling through the list easier
+
+                            
                             do {
                                 System.out.print("Would you like to take " + character.getName() + " out of the bag? (y/n/e/c)");
                                 String response = sc.nextLine();
@@ -115,6 +118,8 @@ public class Game {
                                     case "y":
                                         System.out.println("Removing " + character.getName() + "...");
                                         it.remove();
+                                        break;
+                                        
                                     case "n":
                                         isValid = true;
                                         break;
@@ -143,7 +148,7 @@ public class Game {
                         if(!newBag.isEmpty()) {
                             printCharacters(newBag);
                             String response;
-                            boolean isValid;
+                            boolean isValid = false;
                             do {
                                 System.out.print("Would you like to go through the list again to remove more characters, or would you like to [r]estart the process? (y/n/r) ");
                                 response = sc.nextLine();
@@ -151,6 +156,8 @@ public class Game {
                                     case "n":
                                         System.out.println("Finalizing settings for " + playerName + "...");
                                         isFinished = true;
+                                        break;
+                                        
                                     case "y":
                                         isValid = true;
                                         break;
@@ -168,30 +175,28 @@ public class Game {
                             } while (!isValid);
                         } else {
                             String response;
-
+                        System.out.println("The bag is currently empty. Would you like to [r]estart creating the bag or [c]ancel the process?");
+                        response = sc.nextLine();
+                        while (!response.equalsIgnoreCase("r") && !response.equalsIgnoreCase("c")) {
+                            System.out.println("Invalid response. Type \'r\' or \'c\' to make a decision.");
                             System.out.println("The bag is currently empty. Would you like to [r]estart creating the bag or [c]ancel the process?");
                             response = sc.nextLine();
-                            while (!response.equalsIgnoreCase("r") && !response.equalsIgnoreCase("c")) {
-                                System.out.println("Invalid response. Type \'r\' or \'c\' to make a decision.");
-                                System.out.println("The bag is currently empty. Would you like to [r]estart creating the bag or [c]ancel the process?");
-                                response = sc.nextLine();
-                            }
+                        }
 
-                            switch(response.toLowerCase()) {
-                                case "r":
-                                    System.out.println("Restarting bag modifications...");
-                                    // reestablishing old variables
-                                    newBag = new ArrayList<>(availableCharacters);
-                                    it = newBag.iterator();
-                                    break;
-                                case "c":
-                                    System.out.println("Cancelling bag modifications...");
-                                    cancelled = true;
-                                    isFinished = true;
-                                    break;
-                                default:
-                                    throw new AssertionError("How did you even get here this wasn't supposed to happen");
-                            }
+                        switch(response.toLowerCase()) {
+                            case "r":
+                                System.out.println("Restarting bag modifications...");
+                                newBag = new ArrayList<>(availableCharacters);
+                                it = newBag.iterator();
+                                break;
+                            case "c":
+                                System.out.println("Cancelling bag modifications...");
+                                cancelled = true;
+                                isFinished = true;
+                                break;
+                            default:
+                                throw new AssertionError("How did you even get here this wasn't supposed to happen");
+                        }
                         }
                     } while(!isFinished);
                     
