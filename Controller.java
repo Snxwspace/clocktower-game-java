@@ -32,7 +32,7 @@ public class Controller {
             int choice = sc.nextInt();
             switch(choice) {
                 case 1:
-                    // TODO trouble brewing
+                    script = scriptTroubleBrewing();
                     break;
                 case 0:
                     System.out.println("Cancelling game...");
