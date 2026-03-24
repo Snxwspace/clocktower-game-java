@@ -16,7 +16,7 @@ public class Controller {
         // Filling basic variables
         Scanner sc = new Scanner(System.in);
         Game game;
-        ArrayList<PlayerCharacter> script = null;
+        Script script = null;
 
         System.out.println("Welcome to Blood on the Clocktower!");
 
@@ -63,9 +63,176 @@ public class Controller {
 
         // TODO choosing characters that are in play (requires PlayerCharacter)
             // choice between randomly generating and choosing characters
+        System.out.println("It's now time to determine what roles are in the game.");
+        System.out.println("Would you like to: ");
+        System.out.println("1. Create a list of roles in play");
+        System.out.println("2. Use the pre-built list of roles");
+        System.out.println("0. Cancel game");
+        // chat we are not randomly generating this idc its too complex bc there are characters that change what's needed
+        ArrayList<PlayerCharacter> charactersInPlay = new ArrayList<>(numPlayers);
+
+        // determining number of character types in game
+        int reqDemons = 1;
+        int reqMinions;
+        int reqOutsiders;
+        if(numPlayers >= 7) {
+            reqMinions = Math.floorDiv(numPlayers-1, 3)-1;
+            reqOutsiders = numPlayers-1 % 3;
+        } else {
+            reqMinions = 1;
+            reqOutsiders = numPlayers+1 % 3;
+        }
+        int reqTownsfolk = numPlayers-reqDemons-reqMinions-reqOutsiders;
+
+        int roleListChoice = sc.nextInt();
+        while(roleListChoice < 0 || roleListChoice > 2) {
+            System.out.println("Invalid selection.");
+            System.out.println("Would you like to: ");
+            System.out.println("1. Create a list of roles in play");
+            System.out.println("2. Use the pre-built list of roles");
+            System.out.println("0. Cancel game");
+
+            roleListChoice = sc.nextInt();
+        }
+        switch (roleListChoice) {
+            case 1:
+                int townsfolk = 0;
+                int outsiders = 0;
+                int minions = 0;
+                int demons = 0;
+                do {
+                    System.out.println("What would you like to do?");
+                    System.out.println("(" + townsfolk + "/" + reqTownsfolk + " Townsfolk)");
+                    System.out.println("(" + outsiders + "/" + reqOutsiders + " Outsiders)");
+                    System.out.println("(" + minions + "/" + reqMinions + " Minions)");
+                    System.out.println("(" + demons + "/" + reqDemons + " Demons)");
+                    System.out.println("1. Add a character");
+                    System.out.println("2. Remove a character");
+                    System.out.println("0. Cancel game");
+                    int choice = sc.nextInt();
+                    
+                    switch(choice) {
+                        case 1:
+                            PlayerCharacter characterToAdd = choosePlayerCharacter(script.getCharacters(), sc);
+                            switch(characterToAdd.getCharacterType()) {
+                                case 't':
+                                    townsfolk++;
+                                    break;
+                                case 'o':
+                                    outsiders++;
+                                    break;
+                                case 'm':
+                                    minions++;
+                                    break;
+                                case 'd':
+                                    demons++;
+                                    break;
+                            }
+                            charactersInPlay.add(characterToAdd);
+                            break;
+                        case 2:
+                            PlayerCharacter characterToRemove = choosePlayerCharacter(charactersInPlay, sc);
+                            switch(characterToRemove.getCharacterType()) {
+                                case 't':
+                                    townsfolk--;
+                                    break;
+                                case 'o':
+                                    outsiders--;
+                                    break;
+                                case 'm':
+                                    minions--;
+                                    break;
+                                case 'd':
+                                    demons--;
+                                    break;
+                            }
+                            charactersInPlay.remove(characterToRemove);
+                            break;
+                        case 0:
+                            return;
+                        default:
+                            System.out.println("Invalid choice. Enter a number to make a decision.");
+                    }
+                } while (
+                        charactersInPlay.size() != numPlayers &&
+                        townsfolk == reqTownsfolk &&
+                        outsiders == reqOutsiders &&
+                        minions == reqMinions &&
+                        demons == reqDemons
+                        );  
+                break;
+            case 2:
+                PlayerCharacter[] townsfolkArray = new PlayerCharacter[9];
+                PlayerCharacter[] outsiderArray = new PlayerCharacter[2];
+                PlayerCharacter[] minionArray = new PlayerCharacter[3];
+                PlayerCharacter[] demonArray = new PlayerCharacter[1];
+
+                ArrayList<PlayerCharacter> townsfolkList = script.getTownsfolk();
+                townsfolkArray[0] = townsfolkList.get(1);   // Washerwoman
+                townsfolkArray[1] = townsfolkList.get(0);   // Monk
+                townsfolkArray[2] = townsfolkList.get(7);   // Empath
+                townsfolkArray[3] = townsfolkList.get(3);   // Investigator
+                townsfolkArray[4] = townsfolkList.get(10);  // Slayer
+                townsfolkArray[5] = townsfolkList.get(5);   // Ravenkeeper
+                townsfolkArray[6] = townsfolkList.get(12);  // Mayor
+                townsfolkArray[7] = townsfolkList.get(6);   // Undertaker
+                townsfolkArray[8] = townsfolkList.get(4);   // Chef
+                for (int i = 0; i < reqTownsfolk; i++) {                
+                    charactersInPlay.add(townsfolkArray[i]);
+                }
+
+                ArrayList<PlayerCharacter> outsiderList = script.getOutsiders();
+                outsiderArray[0] = outsiderList.get(3); // Saint
+                outsiderArray[1] = outsiderList.get(2); // Recluse
+                for (int i = 0; i < reqOutsiders; i++) {                
+                    charactersInPlay.add(outsiderArray[i]);
+                }
+
+                ArrayList<PlayerCharacter> minionList = script.getMinions();
+                minionArray[0] = minionList.get(0); // Poisoner
+                minionArray[1] = minionList.get(1); // Spy
+                minionArray[2] = minionList.get(2); // Scarlet Woman
+                for (int i = 0; i < reqMinions; i++) {                
+                    charactersInPlay.add(minionArray[i]);
+                }
+
+                demonArray[0] = script.getDemons().get(0);  // Imp
+                charactersInPlay.add(demonArray[0]);
+                break;
+            case 0:
+                return;
+            default:
+                break;
+        }
 
         // TODO filling in the player information (requires PlayerCharacter, Player)
-            // choice between rigging the bag and randomly giving characters?
+        // choice between rigging the bag and randomly giving characters?
+    }
+
+    public static PlayerCharacter choosePlayerCharacter(ArrayList<PlayerCharacter> choices, Scanner sc) {
+        PlayerCharacter chosenCharacter = null;
+        sc.nextLine(); // making sure to clear the buffer
+        do {
+            for(int i = 0; i < choices.size(); i++) {
+                char type = choices.get(i).getCharacterType();
+                String charType = "";
+                if(type == 't') charType = "Townsfolk";
+                else if(type == 'o') charType = "Outsider";
+                else if(type == 'm') charType = "Minion";
+                else if(type == 'd') charType = "Demon";
+                System.out.println(i+1 + ". " + choices.get(i) + " (" + charType + ")");
+            }
+            System.out.println("Make sure you scroll up to view all options!");
+            System.out.print("Character chosen: ");
+            int choice = sc.nextInt();
+            try {
+                chosenCharacter = choices.get(choice-1);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Invalid option. Press enter to continue.");
+                sc.nextInt();
+            }
+        } while(chosenCharacter == null);
+        return chosenCharacter;
     }
 
     /**
@@ -73,39 +240,41 @@ public class Controller {
      * 
      * @return  scriptCharacters    array of characters on the script
      */
-    public static ArrayList<PlayerCharacter> scriptTroubleBrewing() {
-                ArrayList<PlayerCharacter> characters = new ArrayList<>();
+    public static Script scriptTroubleBrewing() {
+        Script troubleBrewing = new Script();
 
-        //Townsfolk
-        characters.add(new Passive('t', "Washerwoman"));
-        characters.add(new Passive('t', "Librarian"));
-        characters.add(new Investigator('t', "Investigator"));
-        characters.add(new Passive('t', "Chef"));
-        characters.add(new Passive('t', "Empath"));
-        characters.add(new Passive('t', "Fortune Teller"));
-        characters.add(new Passive('t', "Undertaker"));
-        characters.add(new Monk('t', "Monk"));
-        characters.add(new Passive('t', "Ravenkeeper"));
-        characters.add(new Passive('t', "Virgin"));
-        characters.add(new Passive('t', "Slayer"));
-        characters.add(new Passive('t', "Soldier"));
-        characters.add(new Passive('t', "Mayor"));
+        // Preventative roles
+        troubleBrewing.addNewCharacter(new Poisoner('m', "Poisoner"), true, true);
+        troubleBrewing.addNewCharacter(new Monk('t', "Monk"), false, true);
 
-        //Outsiders
-        characters.add(new Passive('o', "Butler"));
-        characters.add(new Passive('o', "Drunk"));
-        characters.add(new Passive('o', "Recluse"));
-        characters.add(new Passive('o', "Saint"));
+        // Misc. 1
+        troubleBrewing.addNewCharacter(new Passive('m', "Spy"), true, true);
+        troubleBrewing.addNewCharacter(new Passive('m', "Scarlet Woman"), false, false);
 
-        //Minions
-        characters.add(new Poisoner('m', "Poisoner"));
-        characters.add(new Passive('m', "Spy"));
-        characters.add(new Passive('m', "Scarlet Woman"));
-        characters.add(new Passive('m', "Baron"));
+        // Killing roles
+        troubleBrewing.addNewCharacter(new Imp('d', "Imp"), false, true);
 
-        //Demons
-        characters.add(new Imp('d', "Imp"));
+        // Informational roles
+        troubleBrewing.addNewCharacter(new Passive('t', "Washerwoman"), true, false);
+        troubleBrewing.addNewCharacter(new Passive('t', "Librarian"), true, false);
+        troubleBrewing.addNewCharacter(new Investigator('t', "Investigator"), true, false);
+        troubleBrewing.addNewCharacter(new Passive('t', "Chef"), true, false);
+        troubleBrewing.addNewCharacter(new Passive('t', "Ravenkeeper"), false, true);
+        troubleBrewing.addNewCharacter(new Passive('t', "Undertaker"), false, true);
+        troubleBrewing.addNewCharacter(new Passive('t', "Empath"), true, true);
+        troubleBrewing.addNewCharacter(new Passive('t', "Fortune Teller"), true, true);
 
-        return characters; // to satisfy the computer while I wait for PlayerCharacter to finish
+        // Misc. 2, Day roles, and passives
+        troubleBrewing.addNewCharacter(new Passive('o', "Butler"), true, true);
+        troubleBrewing.addNewCharacter(new Passive('t', "Virgin"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('t', "Slayer"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('t', "Soldier"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('t', "Mayor"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('o', "Drunk"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('o', "Recluse"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('o', "Saint"), false, false);
+        troubleBrewing.addNewCharacter(new Passive('m', "Baron"), false, false);
+
+        return troubleBrewing;
     }
 }
