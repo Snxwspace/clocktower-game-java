@@ -6,7 +6,7 @@ public class FortuneTeller extends PlayerCharacter {
     
     public FortuneTeller(char charType, String name) {
         super(charType, name);
-        super.canAct = false;
+        super.canAct = true;
         picksPlayer = true;
         redHerring = null;
     }
