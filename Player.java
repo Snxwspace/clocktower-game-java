@@ -86,6 +86,8 @@ public class Player {
      */
     public boolean getCanBeNominated() { return canBeNominated; }
 
+    public PlayerCharacter getCharacter() { return character; }
+
     public boolean getProtected() { return isProtected; }
 
     public void setProtected(boolean p){ isProtected = p; }
