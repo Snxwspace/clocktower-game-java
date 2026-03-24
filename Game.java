@@ -232,4 +232,5 @@ public class Game {
     }
 
     public Player[] getPlayers() { return players; }
+    public Script getScript(){ return currentScript; }
 }

@@ -14,7 +14,7 @@ public class Investigator extends PlayerCharacter {
         if (canAct == true){
             boolean recChance = false;
             for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName() == "Recluse"){recChance = true;}
+                if (game.getPlayers()[i].getCharacter().getName().equals("Recluse")){recChance = true;}
             }
             System.out.println("Point to 2 game.getPlayers(), then show a Minion token of the Minion amongst them");
             if (recChance = true){

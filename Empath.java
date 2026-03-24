@@ -18,14 +18,14 @@ public class Empath extends PlayerCharacter {
             
             int evilBordering = 0;
             for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName() == "Spy"){spyChance = true;}
+                if (game.getPlayers()[i].getCharacter().getName().equals("Spy")){spyChance = true;}
             }
             for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName() == "Recluse"){recChance = true;}
+                if (game.getPlayers()[i].getCharacter().getName().equals("Recluse")){recChance = true;}
             }
             
             for (int i = 0; i < game.getPlayers().length; i++){
-                if(game.getPlayers()[i].getCharacter().getName() == "Empath"){
+                if(game.getPlayers()[i].getCharacter().getName().equals("Empath")){
                     pos = i;
                 }
             }

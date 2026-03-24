@@ -14,7 +14,7 @@ public class Washerwoman extends PlayerCharacter {
         if (canAct == true){
             boolean spyChance = false;
             for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName() == "Spy"){spyChance = true;}
+                if (game.getPlayers()[i].getCharacter().getName().equals("Spy")){spyChance = true;}
             }
             System.out.println("Point to 2 players, then show a Townsfolk token of the Townsfolk amongst them");
             if (spyChance = true){

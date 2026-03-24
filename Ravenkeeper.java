@@ -16,17 +16,17 @@ public class Ravenkeeper extends PlayerCharacter {
             boolean spyChance = false;
             boolean recChance = false;
             for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName() == "Spy"){spyChance = true;}
+                if (game.getPlayers()[i].getCharacter().getName().equals("Spy")){spyChance = true;}
             }
             for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName() == "Recluse"){recChance = true;}
+                if (game.getPlayers()[i].getCharacter().getName().equals("Recluse")){recChance = true;}
             }
             
             do{
                 System.out.println("Who would they like to examine?");
                 String examinee = sc.nextLine();
                 for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName() == examinee && game.getPlayers()[i].getCharacter().getName() != "Ravenkeeper"){
+                    if (game.getPlayers()[i].getName().equals(examinee) && game.getPlayers()[i].getCharacter().getName() != "Ravenkeeper"){
                         examined = true;
                     }else{
                         System.out.print("They can't do that!");

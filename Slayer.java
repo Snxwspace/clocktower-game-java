@@ -17,7 +17,7 @@ public class Slayer extends PlayerCharacter {
                 System.out.println("Who would they like to shoot?");
                 String target = sc.nextLine();
                 for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName() == target){
+                    if (game.getPlayers()[i].getName().equals(target)){
                         if (game.getPlayers()[i].getCharacter().getBaseAlignment() == 'd'){
                             game.getPlayers()[i].kill();
                             shot = true;

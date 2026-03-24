@@ -17,7 +17,7 @@ public class Monk extends PlayerCharacter {
                 System.out.println("Who would they like to protect?");
                 String protectee = sc.nextLine();
                 for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName() == protectee && game.getPlayers()[i].getCharacter().getName() != "Monk"){
+                    if (game.getPlayers()[i].getName() == protectee && !(game.getPlayers()[i].getCharacter().getName().equals("Monk"))){
                         game.getPlayers()[i].setProtected(true);
                         protec = true;
                     }else{
