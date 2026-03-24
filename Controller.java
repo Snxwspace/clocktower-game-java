@@ -255,14 +255,14 @@ public class Controller {
         troubleBrewing.addNewCharacter(new Imp('d', "Imp"), false, true);
 
         // Informational roles
-        troubleBrewing.addNewCharacter(new Passive('t', "Washerwoman"), true, false);
-        troubleBrewing.addNewCharacter(new Passive('t', "Librarian"), true, false);
+        troubleBrewing.addNewCharacter(new Washerwoman('t', "Washerwoman"), true, false);
+        troubleBrewing.addNewCharacter(new Librarian('t', "Librarian"), true, false);
         troubleBrewing.addNewCharacter(new Investigator('t', "Investigator"), true, false);
-        troubleBrewing.addNewCharacter(new Passive('t', "Chef"), true, false);
+        troubleBrewing.addNewCharacter(new Chef('t', "Chef"), true, false);
         troubleBrewing.addNewCharacter(new Passive('t', "Ravenkeeper"), false, true);
         troubleBrewing.addNewCharacter(new Passive('t', "Undertaker"), false, true);
-        troubleBrewing.addNewCharacter(new Passive('t', "Empath"), true, true);
-        troubleBrewing.addNewCharacter(new Passive('t', "Fortune Teller"), true, true);
+        troubleBrewing.addNewCharacter(new Empath('t', "Empath"), true, true);
+        troubleBrewing.addNewCharacter(new FortuneTeller('t', "Fortune Teller"), true, true);
 
         // Misc. 2, Day roles, and passives
         troubleBrewing.addNewCharacter(new Passive('o', "Butler"), true, true);
