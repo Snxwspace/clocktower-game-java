@@ -52,6 +52,7 @@ public class Game {
             } else {
                 players[i] = new Player(name, availableCharacters, rand);
             }
+            availableCharacters.remove(players[i].getCharacter());
         }
     }
 
