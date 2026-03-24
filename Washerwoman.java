@@ -1,14 +1,14 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Investigator extends PlayerCharacter {
+public class Washerwoman extends PlayerCharacter {
     private boolean canAct;
     private boolean picksPlayer;
     private char charType;
     private char baseAlignment;
     private String name;
 
-    public Investigator(char charType, String name) {
+    public Washerwoman(char charType, String name) {
         super(charType, name);
         super.canAct = true;
         super.picksPlayer = false;
@@ -17,12 +17,12 @@ public class Investigator extends PlayerCharacter {
     @Override
     public void useAbility(Scanner sc, Player[] players, Random rand){
         if (canAct == true){
-            boolean recChance = false;
+            boolean spyChance = false;
             for (int i = 0; i < players.length; i++){
-                if (players[i].getCharacter().getName() == "Recluse"){recChance = true;}
+                if (players[i].getCharacter().getName() == "Spy"){spyChance = true;}
             }
-            System.out.println("Point to 2 players, then show a Minion token of the Minion amongst them");
-            if (recChance = true){
+            System.out.println("Point to 2 players, then show a Townsfolk token of the Townsfolk amongst them");
+            if (spyChance = true){
                 System.out.println("You may lie and say the Spy is a Townsfolk");
             }
             canAct = false;

@@ -79,6 +79,8 @@ public class Player {
      * @return  canNominate Boolean value for whether the player can nominate today
      */
     public boolean getCanNominate() { return canNominate; }
+    
+    public PlayerCharacter getCharacter() { return character; }
 
     /**
      * Gets whether the player can be nominated by another player today
@@ -133,7 +135,7 @@ public class Player {
     public void afterNominated() { // TODO better method name BEFORE WE START INTEGRATING THINGS
         canBeNominated = false;
     }
-
+    
     /**
      * 
      */
