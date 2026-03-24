@@ -20,6 +20,8 @@ public class Monk extends PlayerCharacter {
                     if (players[i].getName() == protectee && players[i].getCharacter().getName() != "Monk"){
                         players[i].setProtected(true);
                         protec = true;
+                    }else{
+                        System.out.print("They can't do that!");
                     }
                 }
             }while(protec == false);
