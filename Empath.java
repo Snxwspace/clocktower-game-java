@@ -23,11 +23,8 @@ public class Empath extends PlayerCharacter {
             for (int i = 0; i < game.getPlayers().length; i++){
                 if (game.getPlayers()[i].getCharacter().getName().equals("Recluse")){recChance = true;}
             }
-            
             for (int i = 0; i < game.getPlayers().length; i++){
-                if(game.getPlayers()[i].getCharacter().getName().equals("Empath")){
-                    pos = i;
-                }
+                if(game.getPlayers()[i].getCharacter().getName().equals("Empath")){pos = i;}
             }
             
             Player neighbor1 = null;
