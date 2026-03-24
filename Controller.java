@@ -248,8 +248,9 @@ public class Controller {
         troubleBrewing.addNewCharacter(new Monk('t', "Monk"), false, true);
 
         // Misc. 1
-        troubleBrewing.addNewCharacter(new Passive('m', "Spy"), true, true);
+        troubleBrewing.addNewCharacter(new Spy('m', "Spy"), true, true);
         troubleBrewing.addNewCharacter(new Passive('m', "Scarlet Woman"), false, false);
+        troubleBrewing.addNewCharacter(new Butler('o', "Butler"), true, true);
 
         // Killing roles
         troubleBrewing.addNewCharacter(new Imp('d', "Imp"), false, true);
@@ -259,21 +260,20 @@ public class Controller {
         troubleBrewing.addNewCharacter(new Librarian('t', "Librarian"), true, false);
         troubleBrewing.addNewCharacter(new Investigator('t', "Investigator"), true, false);
         troubleBrewing.addNewCharacter(new Chef('t', "Chef"), true, false);
-        troubleBrewing.addNewCharacter(new Passive('t', "Ravenkeeper"), false, true);
+        troubleBrewing.addNewCharacter(new Ravenkeeper('t', "Ravenkeeper"), false, true);
         troubleBrewing.addNewCharacter(new Passive('t', "Undertaker"), false, true);
         troubleBrewing.addNewCharacter(new Empath('t', "Empath"), true, true);
         troubleBrewing.addNewCharacter(new FortuneTeller('t', "Fortune Teller"), true, true);
 
         // Misc. 2, Day roles, and passives
-        troubleBrewing.addNewCharacter(new Passive('o', "Butler"), true, true);
         troubleBrewing.addNewCharacter(new Passive('t', "Virgin"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('t', "Slayer"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('t', "Soldier"), false, false);
+        troubleBrewing.addNewCharacter(new Slayer('t', "Slayer"), false, false);
+        troubleBrewing.addNewCharacter(new Soldier('t', "Soldier"), false, false);
         troubleBrewing.addNewCharacter(new Passive('t', "Mayor"), false, false);
         troubleBrewing.addNewCharacter(new Passive('o', "Drunk"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('o', "Recluse"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('o', "Saint"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('m', "Baron"), false, false);
+        troubleBrewing.addNewCharacter(new Recluse('o', "Recluse"), false, false);
+        troubleBrewing.addNewCharacter(new Saint('o', "Saint"), false, false);
+        troubleBrewing.addNewCharacter(new Baron('m', "Baron"), false, false);
 
         return troubleBrewing;
     }
