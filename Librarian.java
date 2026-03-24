@@ -2,11 +2,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Librarian extends PlayerCharacter {
-    private boolean canAct;
-    private boolean picksPlayer;
-    private char charType;
-    private char baseAlignment;
-    private String name;
 
     public Librarian(char charType, String name) {
         super(charType, name);

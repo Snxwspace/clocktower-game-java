@@ -19,8 +19,16 @@ public class Imp extends PlayerCharacter {
                 for (int i = 0; i < players.length; i++){
                     if (players[i].getName() == victim){
                         if(players[i].getProtected() == false || (players[i].getCharacter().getName() == "Soldier" && players[i].getPoisoned())){
-                            players[i].kill();
-                            killed = true;
+                            if(players[i].getCharacter().getName() == "Mayor"){
+                                System.out.println("Would you like to switch the kill? (1=yes, 2=no)");
+                                int mayor = sc.nextInt();
+                                switch(mayor){
+                                    case 1: break;
+                                    case 2: default:
+                                        players[i].kill();
+                                        killed = true;
+                                }
+                            }
                         }
                     }
                 }

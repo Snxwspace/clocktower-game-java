@@ -2,11 +2,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Washerwoman extends PlayerCharacter {
-    private boolean canAct;
-    private boolean picksPlayer;
-    private char charType;
-    private char baseAlignment;
-    private String name;
 
     public Washerwoman(char charType, String name) {
         super(charType, name);

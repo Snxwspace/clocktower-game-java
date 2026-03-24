@@ -115,6 +115,7 @@ public class Player {
             isAlive = false;
             hasGhostVote = true;
             canNominate = false;
+            canUseAction();
         }
     }
     
@@ -126,6 +127,14 @@ public class Player {
         if(!isAlive) {
             isAlive = true;
             // restore character abilities
+        }
+    }
+    
+    public void canUseAction(){
+        if(!isAlive && character.getName() != "Ravenkeeper") {
+            character.setCanAct(false);
+        }else if(character.getName() == "Ravenkeeper" ){
+            character.setCanAct(true);
         }
     }
 

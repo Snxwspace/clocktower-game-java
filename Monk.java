@@ -1,20 +1,28 @@
-public class Monk extends PlayerCharacter {
-    private boolean canAct;
-    private boolean picksPlayer;
-    private char charType;
-    private char baseAlignment;
-    private String name;
+import java.util.Random;
+import java.util.Scanner;
 
+public class Monk extends PlayerCharacter {
+    
     public Monk(char charType, String name) {
         super(charType, name);
-        baseAlignment = 'g';
-        canAct = false;
+        super.canAct = false;
         picksPlayer = true;
     }
     
-    public void useAbility(Player guy){
-        guy.setProtected(true);
+    @Override
+    public void useAbility(Scanner sc, Player[] players, Random rand){
+        if (canAct == true){
+            boolean protec = false;
+            do{
+                System.out.println("Who would they like to protect?");
+                String protectee = sc.nextLine();
+                for (int i = 0; i < players.length; i++){
+                    if (players[i].getName() == protectee && players[i].getCharacter().getName() != "Monk"){
+                        players[i].setProtected(true);
+                        protec = true;
+                    }
+                }
+            }while(protec == false);
+        }
     }
-    
-    public boolean getCanAct() { return canAct; } 
 }

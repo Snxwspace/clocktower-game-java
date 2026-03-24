@@ -1,0 +1,72 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Empath extends PlayerCharacter {
+
+    public Empath(char charType, String name) {
+        super(charType, name);
+        super.canAct = true;
+        super.picksPlayer = false;
+    }
+    
+    @Override
+    public void useAbility(Scanner sc, Player[] players, Random rand){
+        if (canAct == true){
+            boolean spyChance = false;
+            boolean recChance = false;
+            int pos = -1;
+            
+            int evilBordering = 0;
+            for (int i = 0; i < players.length; i++){
+                if (players[i].getCharacter().getName() == "Spy"){spyChance = true;}
+            }
+            for (int i = 0; i < players.length; i++){
+                if (players[i].getCharacter().getName() == "Recluse"){recChance = true;}
+            }
+            
+            for (int i = 0; i < players.length; i++){
+                if(players[i].getCharacter().getName() == "Empath"){
+                    pos = i;
+                }
+            }
+            
+            Player neighbor1 = null;
+            Player neighbor2 = null;
+            
+            int counter = 1;
+            boolean foundNeighbor = false;
+            while(foundNeighbor == false){
+                if(players[pos%(players.length)-counter].getIsAlive() == false){
+                    counter++;
+                }else{
+                    neighbor1 = players[pos%(players.length)-counter];
+                    foundNeighbor = true;
+                }
+            }
+            foundNeighbor = false;
+            counter = 1;
+            while(neighbor2 == null){
+                if(players[pos%(players.length)+counter].getIsAlive() == false){
+                    counter++;
+                }else{
+                    neighbor2 = players[pos%(players.length)+counter];
+                    foundNeighbor = true;
+                }
+            }
+            
+            if(neighbor1.getAlignment() == 'e' && neighbor2.getAlignment() == 'e'){
+                        evilBordering = 2;
+                    }else if(neighbor1.getAlignment() == 'e' || neighbor2.getAlignment() == 'e'){
+                        evilBordering = 1;
+                    }
+            
+            System.out.println("The Empath has " + evilBordering + " Evil neighbor(s)");
+            if (spyChance == true){
+                System.out.println("You may lie and say the Spy is Good");
+            }
+            if (recChance == true){
+                System.out.println("You may lie and say the Recluse is Evil");
+            }
+        }
+    }
+}
