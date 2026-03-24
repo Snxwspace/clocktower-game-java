@@ -15,6 +15,7 @@ public class Game {
     private Player[] players;
     private Random rand = new Random();
     private boolean isNight;
+    private boolean isFirstNight;
     private Script currentScript;
 
     /**
@@ -26,6 +27,7 @@ public class Game {
         players = new Player[numPlayers];
         currentScript = script;
         isNight = true;
+        isFirstNight = true;
     }
 
     /**
