@@ -10,13 +10,13 @@ public class Investigator extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean recChance = false;
-            for (int i = 0; i < players.length; i++){
-                if (players[i].getCharacter().getName() == "Recluse"){recChance = true;}
+            for (int i = 0; i < game.getPlayers().length; i++){
+                if (game.getPlayers()[i].getCharacter().getName() == "Recluse"){recChance = true;}
             }
-            System.out.println("Point to 2 players, then show a Minion token of the Minion amongst them");
+            System.out.println("Point to 2 game.getPlayers(), then show a Minion token of the Minion amongst them");
             if (recChance = true){
                 System.out.println("You may lie and say the Spy is a Townsfolk");
             }

@@ -69,5 +69,5 @@ public class PlayerCharacter {
     
     public void setCanAct(boolean a) { canAct = a; }
 
-    public void useAbility(Scanner sc, Player[] players, Random rand) {}
+    public void useAbility(Scanner sc, Game game, Random rand) {}
 }

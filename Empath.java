@@ -10,22 +10,22 @@ public class Empath extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean spyChance = false;
             boolean recChance = false;
             int pos = -1;
             
             int evilBordering = 0;
-            for (int i = 0; i < players.length; i++){
-                if (players[i].getCharacter().getName() == "Spy"){spyChance = true;}
+            for (int i = 0; i < game.getPlayers().length; i++){
+                if (game.getPlayers()[i].getCharacter().getName() == "Spy"){spyChance = true;}
             }
-            for (int i = 0; i < players.length; i++){
-                if (players[i].getCharacter().getName() == "Recluse"){recChance = true;}
+            for (int i = 0; i < game.getPlayers().length; i++){
+                if (game.getPlayers()[i].getCharacter().getName() == "Recluse"){recChance = true;}
             }
             
-            for (int i = 0; i < players.length; i++){
-                if(players[i].getCharacter().getName() == "Empath"){
+            for (int i = 0; i < game.getPlayers().length; i++){
+                if(game.getPlayers()[i].getCharacter().getName() == "Empath"){
                     pos = i;
                 }
             }
@@ -36,20 +36,20 @@ public class Empath extends PlayerCharacter {
             int counter = 1;
             boolean foundNeighbor = false;
             while(foundNeighbor == false){
-                if(players[pos%(players.length)-counter].getIsAlive() == false){
+                if(game.getPlayers()[pos%(game.getPlayers().length)-counter].getIsAlive() == false){
                     counter++;
                 }else{
-                    neighbor1 = players[pos%(players.length)-counter];
+                    neighbor1 = game.getPlayers()[pos%(game.getPlayers().length)-counter];
                     foundNeighbor = true;
                 }
             }
             foundNeighbor = false;
             counter = 1;
             while(neighbor2 == null){
-                if(players[pos%(players.length)+counter].getIsAlive() == false){
+                if(game.getPlayers()[pos%(game.getPlayers().length)+counter].getIsAlive() == false){
                     counter++;
                 }else{
-                    neighbor2 = players[pos%(players.length)+counter];
+                    neighbor2 = game.getPlayers()[pos%(game.getPlayers().length)+counter];
                     foundNeighbor = true;
                 }
             }

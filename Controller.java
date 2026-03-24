@@ -59,7 +59,7 @@ public class Controller {
             System.out.println("Type 0 to cancel.");
             numPlayers = sc.nextInt();
         }
-        game = new Game(numPlayers);
+        game = new Game(numPlayers, script);
 
         // TODO choosing characters that are in play (requires PlayerCharacter)
             // choice between randomly generating and choosing characters

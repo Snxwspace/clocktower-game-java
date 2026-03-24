@@ -10,16 +10,16 @@ public class Slayer extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean shot = false;
             do{
                 System.out.println("Who would they like to shoot?");
                 String target = sc.nextLine();
-                for (int i = 0; i < players.length; i++){
-                    if (players[i].getName() == target){
-                        if (players[i].getCharacter().getBaseAlignment() == 'd'){
-                            players[i].kill();
+                for (int i = 0; i < game.getPlayers().length; i++){
+                    if (game.getPlayers()[i].getName() == target){
+                        if (game.getPlayers()[i].getCharacter().getBaseAlignment() == 'd'){
+                            game.getPlayers()[i].kill();
                             shot = true;
                         }
                     }

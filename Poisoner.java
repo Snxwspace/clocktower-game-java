@@ -12,9 +12,8 @@ public class Poisoner extends PlayerCharacter {
         picksPlayer = true;
     }
     
+    // TODO fix that
     public void useAbility(Player guy){
         guy.setPoisoned(true);
     }
-    
-    public boolean getCanAct() { return canAct; } 
 }

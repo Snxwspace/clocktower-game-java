@@ -26,10 +26,10 @@ public class FortuneTeller extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             if (redHerring == null){
-                setRedHerring(sc, players);
+                setRedHerring(sc, game.getPlayers());
             }
             Player firstViewing = null;
             Player secondViewing = null;
@@ -37,23 +37,23 @@ public class FortuneTeller extends PlayerCharacter {
             boolean viewable = false;
             
             boolean recChance = false;
-            for (int i = 0; i < players.length; i++){
-                if (players[i].getCharacter().getName() == "Recluse"){recChance = true;}
+            for (int i = 0; i < game.getPlayers().length; i++){
+                if (game.getPlayers()[i].getCharacter().getName() == "Recluse"){recChance = true;}
             }
             
             do{
                 System.out.println("Who would they like to view first?");
                 String firstGuy = sc.nextLine();
-                for (int i = 0; i < players.length; i++){
-                    if (players[i].getName() == firstGuy){
-                        firstViewing = players[i];
+                for (int i = 0; i < game.getPlayers().length; i++){
+                    if (game.getPlayers()[i].getName() == firstGuy){
+                        firstViewing = game.getPlayers()[i];
                     }
                 }
                 System.out.println("Who would they like to view second?");
                 String secondGuy = sc.nextLine();
-                for (int i = 0; i < players.length; i++){
-                    if (players[i].getName() == secondGuy && !(secondGuy.equals(firstGuy))){
-                        secondViewing = players[i];
+                for (int i = 0; i < game.getPlayers().length; i++){
+                    if (game.getPlayers()[i].getName() == secondGuy && !(secondGuy.equals(firstGuy))){
+                        secondViewing = game.getPlayers()[i];
                     }
                 }
             }while(viewable == false);

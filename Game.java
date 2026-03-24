@@ -15,14 +15,16 @@ public class Game {
     private Player[] players;
     private Random rand = new Random();
     private boolean isNight;
+    private Script currentScript;
 
     /**
      * Constructor for Game objects.
      * 
      * @param   numPlayers  number of players that will be playing
      */
-    public Game(int numPlayers) {
+    public Game(int numPlayers, Script script) {
         players = new Player[numPlayers];
+        currentScript = script;
         isNight = true;
     }
 

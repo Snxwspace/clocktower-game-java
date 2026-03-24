@@ -10,15 +10,15 @@ public class Monk extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean protec = false;
             do{
                 System.out.println("Who would they like to protect?");
                 String protectee = sc.nextLine();
-                for (int i = 0; i < players.length; i++){
-                    if (players[i].getName() == protectee && players[i].getCharacter().getName() != "Monk"){
-                        players[i].setProtected(true);
+                for (int i = 0; i < game.getPlayers().length; i++){
+                    if (game.getPlayers()[i].getName() == protectee && game.getPlayers()[i].getCharacter().getName() != "Monk"){
+                        game.getPlayers()[i].setProtected(true);
                         protec = true;
                     }else{
                         System.out.print("They can't do that!");

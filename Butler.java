@@ -10,16 +10,16 @@ public class Butler extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean votable = false;
             do{
                 System.out.println("Who would they like to vote with?");
                 String master = sc.nextLine();
-                for (int i = 0; i < players.length; i++){
-                    if (players[i].getName() == master && players[i].getCharacter().getName() != "Butler"){
-                        players[i].setProtected(true);
-                        System.out.print("The Butler will vote with " + players[i].getCharacter().getName());
+                for (int i = 0; i < game.getPlayers().length; i++){
+                    if (game.getPlayers()[i].getName() == master && game.getPlayers()[i].getCharacter().getName() != "Butler"){
+                        game.getPlayers()[i].setProtected(true);
+                        System.out.print("The Butler will vote with " + game.getPlayers()[i].getCharacter().getName());
                         votable = true;
                     }
                 }

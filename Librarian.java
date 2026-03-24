@@ -10,13 +10,13 @@ public class Librarian extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Player[] players, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean spyChance = false;
-            for (int i = 0; i < players.length; i++){
-                if (players[i].getCharacter().getName() == "Spy"){spyChance = true;}
+            for (int i = 0; i < game.getPlayers().length; i++){
+                if (game.getPlayers()[i].getCharacter().getName() == "Spy"){spyChance = true;}
             }
-            System.out.println("Point to 2 players, then show an Outsider token of the Outsider amongst them");
+            System.out.println("Point to 2 Players, then show an Outsider token of the Outsider amongst them");
             if (spyChance = true){
                 System.out.println("You may lie and say the Spy is an Outsider");
             }
