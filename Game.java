@@ -225,7 +225,7 @@ public class Game {
     
     public void runGame(Scanner sc, ArrayList<PlayerCharacter> charactersInPlay) {
         boolean gameWon = false;
-        int randomization = 0;
+        int randomization;
         
         do{
             System.out.println("Would you like the bag to be fully randomized, or choose things yourself (1: Randomized, 2: Choose)");
@@ -240,11 +240,44 @@ public class Game {
             }
         }while(randomization != 1 && randomization != 2);
         
-        do{
-            night(sc);
-            dawn(sc);
-            day(sc);
-            dusk(sc);
+        System.out.println("The players that are in this game are:");
+        printPlayers(players);
+
+        int j = 0;
+        do {
+            switch (j) {
+                case 0:
+                    night(sc);
+                    break;
+                case 1:
+                    dawn(sc);
+                    break;
+                case 2:
+                    day(sc);
+                    break;
+                case 3:
+                    dusk(sc);
+                    break;
+            }
+
+            int alivePlayers = 0;
+            for(Player player : players) {
+                if(player.getIsAlive()) alivePlayers++;
+            }
+
+            if(!checkAliveDemon(sc)) {
+                gameWon = true;
+                System.out.println("The demon is dead! The game ends, and the good team wins.");
+            } else if (lastExecuted.getCharacter().getName().equals("Saint")) {
+                gameWon = true;
+                System.out.println("The saint has been executed! The game ends, and the evil team wins.");
+            } else if (alivePlayers < 3) {
+                gameWon = true;
+                System.out.println("There are less than three players alive, and the demon still lives!");
+                System.out.println("The game ends, and the evil team wins.");
+            }
+            j++;
+            j %= 4;
         }while(gameWon == false);
     }
     
@@ -372,8 +405,9 @@ public class Game {
         while(choice != 3) {
             System.out.println("What would you like to do?");
             System.out.println("1. Make a nomination");
-            System.out.println("2. A slayer shot is declared");
-            System.out.println("3. End the day");
+            System.out.println("2. View player list");
+            System.out.println("3. A slayer shot is declared");
+            System.out.println("4. End the day");
             choice = sc.nextInt();
             switch(choice) {
                 case 1:
@@ -382,6 +416,11 @@ public class Game {
                     break;
                 
                 case 2:
+                    System.out.println("The current players are: ");
+                    printPlayers(players);
+                    break;
+                
+                case 3:
                     Player slayer = null;
                     do { 
                         System.out.println("Which player is claiming to make a Slayer shot? Type 0 to cancel.");
@@ -410,7 +449,7 @@ public class Game {
                     }
                     break;
 
-                case 3:
+                case 4:
                     return;
 
                 default:
@@ -584,5 +623,23 @@ public class Game {
         }
         
         return false;
+    }
+
+    private void printPlayers(Iterable<Player> playerList) {
+        for(Player player : playerList) {
+            String aliveStr;
+            if(player.getIsAlive()) aliveStr = "Alive";
+            else aliveStr = "Dead";
+            System.out.println(player.getName() + ": " + player.getCharacter().getName() + " (" + aliveStr + ")");
+        }
+    }
+    
+    private void printPlayers(Player[] playerList) {
+        for(Player player : playerList) {
+            String aliveStr;
+            if(player.getIsAlive()) aliveStr = "Alive";
+            else aliveStr = "Dead";
+            System.out.println(player.getName() + ": " + player.getCharacter().getName() + " (" + aliveStr + ")");
+        }
     }
 }
