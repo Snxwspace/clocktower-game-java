@@ -235,13 +235,15 @@ public class Game {
         }while(randomization!= 1 || randomization!= 2);
         
         do{
-            System.out.println("Awaken the Minion(s), show them who the Demon is, and put them to sleep");    
-            System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
-            //TODO: Demon Bluffs
+            if (isFirstNight){
+                System.out.println("Awaken the Minion(s), show them who the Demon is, and put them to sleep");    
+                System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
+                //TODO: Demon Bluffs
             
-            for (int i = 0; i < players.length; i++){ //Poisoner's Turn
-                if (players[i].getCharacter().getName().equals("Poisoner")){
-                    players[i].getCharacter().useAbility(sc, this, rand);
+                for (int i = 0; i < players.length; i++){ //Poisoner's Turn
+                    if (players[i].getCharacter().getName().equals("Poisoner")){
+                        players[i].getCharacter().useAbility(sc, this, rand);//currentScript
+                    }
                 }
             }
         }while(gameWon == false);

@@ -15,10 +15,10 @@ public class Poisoner extends PlayerCharacter {
             boolean poison = false;
             do{
                 System.out.println("Who would they like to poison?");
-                String protectee = sc.nextLine();
+                String poisonee = sc.nextLine();
                 for (Player player : game.getPlayers()) {
-                    if (player.getName().equals(protectee)) {
-                        player.setProtected(true);
+                    if (player.getName().equals(poisonee)) {
+                        player.setPoisoned(true);
                         poison = true;
                     }
                 }
