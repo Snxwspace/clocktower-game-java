@@ -61,8 +61,6 @@ public class Controller {
         }
         game = new Game(numPlayers, script);
 
-        // TODO choosing characters that are in play (requires PlayerCharacter)
-            // choice between randomly generating and choosing characters
         System.out.println("It's now time to determine what roles are in the game.");
         System.out.println("Would you like to: ");
         System.out.println("1. Create a list of roles in play");

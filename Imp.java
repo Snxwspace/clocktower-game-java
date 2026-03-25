@@ -13,26 +13,38 @@ public class Imp extends PlayerCharacter {
     public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean killed = false;
+            String message = "Who would they like to kill?";
             do{
-                System.out.println("Who would they like to kill?");
+                System.out.println(message);
                 String victim = sc.nextLine();
-                for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName() == victim){
-                        if(game.getPlayers()[i].getProtected() == false || (game.getPlayers()[i].getCharacter().getName() == "Soldier" && game.getPlayers()[i].getPoisoned())){
-                            if(game.getPlayers()[i].getCharacter().getName() == "Mayor"){
-                                System.out.println("Would you like to switch the kill? (1=yes, 2=no)");
-                                int mayor = sc.nextInt();
-                                switch(mayor){
-                                    case 1: break;
-                                    case 2: default:
-                                        game.getPlayers()[i].kill();
-                                        killed = true;
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(victim)) {
+                        if (player.getProtected() == false || (player.getCharacter().getName().equals("Soldier") && player.getPoisoned())) {
+                            if (player.getCharacter().getName().equals("Mayor")) {
+                                boolean isValid = false;
+                                while(isValid) {
+                                    System.out.println("Would you like to switch the kill? (1=yes, 2=no)");
+                                    int mayor = sc.nextInt();
+                                    switch (mayor) {
+                                        case 1: 
+                                            message = "Who would you like to switch the kill to?";
+                                            isValid = true;
+                                            break;
+                                        case 2:
+                                            player.kill();
+                                            killed = true;
+                                            isValid = true;
+                                            break;
+                                        default:
+                                            System.out.println("Invalid choice, please choose again.");
+                                            break;
+                                    }
                                 }
                             }
-                        }
+                        } else killed = true;
                     }
                 }
-                System.out.println("That isn't a player in the game!");
+                if(!killed) System.out.println("That isn't a player in the game!");
             }while(killed == false);
         }
     }

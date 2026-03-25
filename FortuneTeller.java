@@ -15,13 +15,13 @@ public class FortuneTeller extends PlayerCharacter {
         System.out.println("Who should be the Fortune Teller's red herring?");
         sc.nextLine();
         do{
-                System.out.println("Who would you like to be their red herring?");
-                String herring = sc.nextLine();
-                for (int i = 0; i < players.length; i++){
-                    if (players[i].getName().equals(herring) && players[i].getCharacter().getBaseAlignment() != 'e'){
-                        redHerring = players[i];
-                    }
+            System.out.println("Who would you like to be their red herring?");
+            String herring = sc.nextLine();
+            for (Player player : players) {
+                if (player.getName().equals(herring) && player.getCharacter().getBaseAlignment() != 'e') {
+                    redHerring = player;
                 }
+            }
         }while(redHerring == null);
     }
     
@@ -33,42 +33,44 @@ public class FortuneTeller extends PlayerCharacter {
             }
             Player firstViewing = null;
             Player secondViewing = null;
-            int numDemons = 0;
+            boolean isDemon = false;
             boolean viewable = false;
             
             boolean recChance = false;
-            for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName().equals("Recluse")){recChance = true;}
+            for (Player player : game.getPlayers()) {
+                if (player.getCharacter().getName().equals("Recluse")) recChance = true;
             }
             
+            String firstGuy;
+            String secondGuy;
             do{
                 System.out.println("Who would they like to view first?");
-                String firstGuy = sc.nextLine();
-                for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName().equals(firstGuy)){
-                        firstViewing = game.getPlayers()[i];
-                    }
+                firstGuy = sc.nextLine();
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(firstGuy)) firstViewing = player;
                 }
+            } while(firstViewing == null);
+            do{
                 System.out.println("Who would they like to view second?");
-                String secondGuy = sc.nextLine();
-                for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName().equals(secondGuy) && !(secondGuy.equals(firstGuy))){
-                        secondViewing = game.getPlayers()[i];
-                    }
+                secondGuy = sc.nextLine();
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(secondGuy) && !(secondGuy.equals(firstGuy))) secondViewing = player;
                 }
-            }while(viewable == false);
+            }while(secondViewing == null);
             
             if ((firstViewing.getCharacter().getCharacterType() == 'd' || firstViewing.getName().equals(redHerring.getName())) 
-            && (secondViewing.getCharacter().getCharacterType() == 'd' || secondViewing.getName().equals(redHerring.getName()))){
-                numDemons = 2;
-            }else if((firstViewing.getCharacter().getCharacterType() == 'd' || firstViewing.getName().equals(redHerring.getName())) 
-            || (secondViewing.getCharacter().getCharacterType() == 'd' || secondViewing.getName().equals(redHerring.getName()))){
-                numDemons = 1;
+             || (secondViewing.getCharacter().getCharacterType() == 'd' || secondViewing.getName().equals(redHerring.getName()))){
+                isDemon = true;
             }
             
-            System.out.println("Tell the Fortune Teller they picked " + numDemons + " Demon(s)");
-            if (recChance == true){
-                System.out.println("You may lie and say the Recluse is a Demon");
+            if(isDemon) System.out.println("Tell the Fortune Teller they picked a demon.");
+            else {
+                System.out.println("Tell the Fortune Teller they did not pick a demon.");
+            
+                if (recChance == true && (firstViewing.getCharacter().getName().equals("Recluse") || 
+                                          secondViewing.getCharacter().getName().equals("Recluse"))){
+                    System.out.println("You may lie and say the Recluse is a Demon");
+                }
             }
         }
     }

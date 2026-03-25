@@ -16,15 +16,16 @@ public class Slayer extends PlayerCharacter {
             do{
                 System.out.println("Who would they like to shoot?");
                 String target = sc.nextLine();
-                for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName().equals(target)){
-                        if (game.getPlayers()[i].getCharacter().getBaseAlignment() == 'd'){
-                            game.getPlayers()[i].kill();
-                            shot = true;
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(target)) {
+                        if (player.getCharacter().getBaseAlignment() == 'd') {
+                            player.kill();
                         }
+                        shot = true;
                     }
                 }
-            }while(shot == false);
+                if (!shot) System.out.println("Please choose a valid target.");
+            } while(shot == false);
         }
         canAct = false;
     }

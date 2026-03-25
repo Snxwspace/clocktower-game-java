@@ -13,26 +13,23 @@ public class Ravenkeeper extends PlayerCharacter {
     public void useAbility(Scanner sc, Game game, Random rand){
         if (canAct == true){
             boolean examined = false;
-            boolean spyChance = false;
-            boolean recChance = false;
-            for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName().equals("Spy")){spyChance = true;}
-            }
-            for (int i = 0; i < game.getPlayers().length; i++){
-                if (game.getPlayers()[i].getCharacter().getName().equals("Recluse")){recChance = true;}
-            }
+            Player examinee = null;
             
             do{
                 System.out.println("Who would they like to examine?");
-                String examinee = sc.nextLine();
-                for (int i = 0; i < game.getPlayers().length; i++){
-                    if (game.getPlayers()[i].getName().equals(examinee) && game.getPlayers()[i].getCharacter().getName() != "Ravenkeeper"){
-                        examined = true;
-                    }else{
-                        System.out.print("They can't do that!");
+                String examineChoice = sc.nextLine();
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(examineChoice)) {
+                        examinee = player;
                     }
                 }
+                if (!examined) System.out.print("Please pick a valid target.");
             }while(examined == false);
+
+            PlayerCharacter examinedChar = examinee.getCharacter();
+            System.out.println("Please show the " + examinedChar + " token to the Ravenkeeper.");
+            if(examinedChar.getName().equals("Recluse")) System.out.println("You may lie and show a Minion or a Demon token to the Ravenkeeper.");
+            if(examinedChar.getName().equals("Spy")) System.out.println("You may lie and show a Townsfolk or a Outsider token to the Ravenkeeper.");
             super.canAct = false;
         }
     }
