@@ -97,6 +97,8 @@ public class Player {
 
     public void setPoisoned(boolean p){ isPoisoned = p; }
 
+    public void setCharacter(PlayerCharacter character) { this.character = character; }
+
     /**
      * Gets whether the player can vote on the current nomination.
      * @return  canVote Boolean value for whether the player can vote

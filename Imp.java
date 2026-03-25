@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -40,6 +41,36 @@ public class Imp extends PlayerCharacter {
                                             break;
                                     }
                                 }
+                            } else if(player.getCharacter().getName().equals("Imp") && player.getIsAlive()) {
+                                if(!badAbility) {
+                                    ArrayList<Player> starPassTargets = new ArrayList<>(3);
+                                    Player starPass = null;
+                                    for(Player p : game.getPlayers()) {
+                                        if(p.getIsAlive() && p.getCharacter().getCharacterType() == 'm') {
+                                            if(p.getCharacter().getName().equals("Scarlet Woman")) {
+                                                starPass = p;
+                                                break;
+                                            } else {
+                                                starPassTargets.add(p);
+                                            }
+                                        }
+                                    }
+
+                                    if(!starPassTargets.isEmpty()) {
+                                        // WE NEED A FREAKING "CHOOSE PLAYER" FUNCTION OH MY GOFD
+                                        while(starPass == null) {
+                                            System.out.println("Who would you like the Imp to star pass to?");
+                                            String s = sc.nextLine();
+                                            for(Player candidate : starPassTargets) {
+                                                if(candidate.getName().equals(s)) starPass = candidate;
+                                            }
+                                        }
+                                    }
+
+                                    player.kill();
+                                    if(starPass != null) starPass.setCharacter(new Imp('d', "Imp"));
+                                }
+                                killed = true;
                             } else killed = true;
                         } else killed = true;
                     }
@@ -48,5 +79,6 @@ public class Imp extends PlayerCharacter {
             }while(killed == false);
         }
     }
+
     public boolean getCanAct() { return canAct; } 
 }

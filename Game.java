@@ -277,17 +277,23 @@ public class Game {
             }
             
             for(PlayerCharacter character : currentScript.getFirstNightOrder()) {
+                boolean preventDuplicateAbility = false;
                 for(Player player : players) {
-                    if (player.getCharacter().getName().equals(character.getName())){
+                    if (player.getCharacter().getName().equals(character.getName()) && player.getCharacter().getCanAct() && !preventDuplicateAbility) {
                         System.out.println("\n" + player.getName() + "'s turn as the " + player.getCharacter().getName() + ":");
                         boolean badAbility = false;
-                        if (player.getPoisoned() == true){
+                        if (player.getPoisoned() == true) {
                             System.out.println("They are poisoned, and therefore, you may lie to them, or their ability may not work.");
                             badAbility = true;
                         } 
                         player.getCharacter().useAbility(sc, this, rand, badAbility);
                         System.out.print("Press enter to continue.");
                         sc.nextLine();
+
+                        // i love hardcoding random edge cases asldkjgaotnoer
+                        if(character.getName().equals("Imp")) {
+                            preventDuplicateAbility = false;
+                        }
                     }
                 }
             }
@@ -336,6 +342,8 @@ public class Game {
             }
         }
 
+        // TODO saint execution ending
+            // use lastExecuted probably
         if(onBlockPlayer == null) {
             System.out.println("No one was nominated!");
         } else if(votesPerNomination.get(onBlockPlayer) == -1) {
@@ -374,6 +382,32 @@ public class Game {
                     break;
                 
                 case 2:
+                    Player slayer = null;
+                    do { 
+                        System.out.println("Which player is claiming to make a Slayer shot? Type 0 to cancel.");
+                        for (int i = 0; i < players.length; i++) {
+                            System.out.println((i+1) + ". " + players[i].getName());
+                        }
+                        int slayerChoice = sc.nextInt();
+
+                        try {
+                            slayer = players[slayerChoice-1];
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            if(choice == 0) {
+                                System.out.println("Cancelling slayer shot...");
+                                break;
+                            }
+                            System.out.println("Invalid option. Please choose a number from the list.");
+                        }
+                    } while (slayer == null);
+
+                    if(slayer != null) {
+                        if(slayer.getCharacter().getName().equals("Slayer")) {
+                            slayer.getCharacter().useAbility(sc, this, rand, slayer.getPoisoned());
+                        } else {
+                            System.out.println("Pretend that this player is actually the slayer. Ask them who they would like to shoot, and announce that nothing happened.");
+                        }
+                    }
                     break;
 
                 case 3:
@@ -530,4 +564,25 @@ public class Game {
     }
     
     public Player getLastExecuted() { return lastExecuted; }
+
+    private boolean checkAliveDemon(Scanner sc) {
+        // TODO use this to check end game conditions
+        Player scarletWoman = null;
+        for (Player player : players) {
+            if(player.getCharacter().getCharacterType() == 'd' && player.getIsAlive()) {
+                return true;
+            } else if(player.getCharacter().getName().equals("Scarlet Woman")) {
+                scarletWoman = player;
+            }
+        }
+        if(scarletWoman != null) {
+            scarletWoman.getCharacter().useAbility(sc, this, rand, scarletWoman.getPoisoned());
+            // check again to see if scarlet woman became demon
+            if(scarletWoman.getCharacter().getCharacterType() == 'd' && scarletWoman.getIsAlive()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

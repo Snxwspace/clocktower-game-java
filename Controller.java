@@ -35,6 +35,7 @@ public class Controller {
                     break;
                 case 0:
                     System.out.println("Cancelling game...");
+                    sc.close();
                     return;
                 default:
                     System.out.println("Please enter a valid choice.");
@@ -49,6 +50,7 @@ public class Controller {
         while(numPlayers > 15 || numPlayers < 5) {
             if(numPlayers == 0) {
                 System.out.println("Cancelling game...");
+                sc.close();
                 return;
             } else if(numPlayers > 15) {
                 System.out.println("Too many players are playing!"); // add "Please consider adding Travellers." when implemented (future scalability)
@@ -147,6 +149,7 @@ public class Controller {
                             charactersInPlay.remove(characterToRemove);
                             break;
                         case 0:
+                            sc.close();
                             return;
                         default:
                             System.out.println("Invalid choice. Enter a number to make a decision.");
@@ -198,6 +201,7 @@ public class Controller {
                 charactersInPlay.add(demonArray[0]);
                 break;
             case 0:
+                sc.close();
                 return;
             default:
                 break;

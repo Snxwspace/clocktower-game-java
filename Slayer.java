@@ -18,8 +18,38 @@ public class Slayer extends PlayerCharacter {
                 String target = sc.nextLine();
                 for (Player player : game.getPlayers()) {
                     if (player.getName().equals(target)) {
-                        if (player.getCharacter().getBaseAlignment() == 'd') {
-                            if(!badAbility) player.kill();
+                        System.out.print("They shoot " + target + "... ");
+                        if (player.getCharacter().getCharacterType() == 'd') {
+                            if(!badAbility) {
+                                player.kill();
+                                System.out.println("...and " + target + " dies!");
+                            } else {
+                                System.out.println("...and nothing happens.");
+                            }
+                        } else if (player.getCharacter().getName().equals("Recluse")) {
+                            if(!badAbility) {
+                                boolean validChoice = false;
+                                while(validChoice) {
+                                    System.out.print("...should the Slayer kill the Recluse? (y/n) ");
+                                    String choice = sc.nextLine();
+                                    switch(choice.toLowerCase()){
+                                        case "y":
+                                            System.out.println(target + " dies!");
+                                            player.kill();
+                                            validChoice = true;
+                                            break;
+                                        case "n": 
+                                            System.out.println("Nothing happens.");
+                                            validChoice = true;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            } else {
+                                System.out.println("...and nothing happens.");
+                            }
+                        } else {
+                            System.out.print("...and nothing happens.");
                         }
                         shot = true;
                     }
