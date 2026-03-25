@@ -260,12 +260,12 @@ public class Controller {
         troubleBrewing.addNewCharacter(new Investigator('t', "Investigator"), true, false);
         troubleBrewing.addNewCharacter(new Chef('t', "Chef"), true, false);
         troubleBrewing.addNewCharacter(new Ravenkeeper('t', "Ravenkeeper"), false, true);
-        troubleBrewing.addNewCharacter(new Passive('t', "Undertaker"), false, true);
+        troubleBrewing.addNewCharacter(new Undertaker('t', "Undertaker"), false, true);
         troubleBrewing.addNewCharacter(new Empath('t', "Empath"), true, true);
         troubleBrewing.addNewCharacter(new FortuneTeller('t', "Fortune Teller"), true, true);
 
         // Misc. 2, Day roles, and passives
-        troubleBrewing.addNewCharacter(new Passive('t', "Virgin"), false, false);
+        troubleBrewing.addNewCharacter(new Virgin('t', "Virgin"), false, false);
         troubleBrewing.addNewCharacter(new Slayer('t', "Slayer"), false, false);
         troubleBrewing.addNewCharacter(new Soldier('t', "Soldier"), false, false);
         troubleBrewing.addNewCharacter(new Mayor('t', "Mayor"), false, false);

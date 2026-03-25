@@ -107,6 +107,10 @@ public class Player {
         // otherwise, they cannot vote
         return (isAlive || hasGhostVote);
     }
+
+    public void useGhostVote() {
+        hasGhostVote = false;
+    }
     
     /**
      * Kills the player. If the player is already dead, nothing happens.
@@ -132,9 +136,9 @@ public class Player {
     }
     
     public void canUseAction(){
-        if(!isAlive && character.getName() != "Ravenkeeper") {
+        if(!isAlive && !character.getName().equals("Ravenkeeper")) {
             character.setCanAct(false);
-        }else if(character.getName() == "Ravenkeeper" ){
+        }else if(character.getName().equals("Ravenkeeper") ){
             character.setCanAct(true);
         }
     }
@@ -142,14 +146,14 @@ public class Player {
     /**
      * 
      */
-    public void afterNominated() { // TODO better method name BEFORE WE START INTEGRATING THINGS
+    public void afterNominated() { 
         canBeNominated = false;
     }
     
     /**
      * 
      */
-    public void afterNomination() { // TODO better method name BEFORE WE START INTEGRATING THINGS
+    public void afterNomination() { 
         canNominate = false;
     }
 

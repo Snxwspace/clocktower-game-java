@@ -272,8 +272,8 @@ public class Game {
         if (isFirstNight){
             if(players.length >= 7) {
                 System.out.println("Awaken the Minion(s), show them who the Demon is, and put them to sleep");    
-                System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
-                //TODO: Demon Bluffs
+                System.out.println("Awaken the Demon, show them who the Minion(s) are.");
+                System.out.println("Show the Demon three characters that aren't in play, and put them to sleep");
             }
             
             for(PlayerCharacter character : currentScript.getFirstNightOrder()) {
@@ -317,6 +317,42 @@ public class Game {
     }
 
     private void dusk(Scanner sc) {
+        Player onBlockPlayer = null;
+        boolean isVoteTied = false;
+        int alivePlayers = 0;
+        for(Player player : players) {
+            if(player.getIsAlive()) alivePlayers++;
+        }
+        for(Player nominee : votesPerNomination.keySet()) {
+            if(onBlockPlayer == null) onBlockPlayer = nominee;
+            else if(votesPerNomination.get(nominee) > votesPerNomination.get(onBlockPlayer)) {
+                onBlockPlayer = nominee;
+                isVoteTied = false;
+            } else if(votesPerNomination.get(nominee).equals(votesPerNomination.get(onBlockPlayer))) {
+                isVoteTied = true;
+            } else if(votesPerNomination.get(nominee) == -1) {
+                onBlockPlayer = nominee;
+                break; // instant execution abilities; don't continue looping
+            }
+        }
+
+        if(onBlockPlayer == null) {
+            System.out.println("No one was nominated!");
+        } else if(votesPerNomination.get(onBlockPlayer) == -1) {
+            System.out.println(onBlockPlayer.getName() + " is immediately executed.");
+            System.out.println("The day immediately ends.");
+            lastExecuted = onBlockPlayer;
+            onBlockPlayer.kill();
+        } else if(votesPerNomination.get(onBlockPlayer) < Math.ceilDiv(alivePlayers, 2)) {
+            System.out.println("There were not enough votes to execute someone!");
+        } else if(isVoteTied) {
+            System.out.println("The vote was tied-- no executions tonight.");
+        } else {
+            System.out.println("With " + votesPerNomination.get(onBlockPlayer) + " votes, " + onBlockPlayer.getName() + " is executed!");
+            lastExecuted = onBlockPlayer;
+            onBlockPlayer.kill();
+        }
+
         for(Player player : players) {
             player.nightfall(sc, this, rand);
         }
@@ -356,29 +392,45 @@ public class Game {
         Player nominee = null;
         while(!isFinal) {
             do { 
-                System.out.println("Which player is making a nomination?");
+                System.out.println("Which player is making a nomination? Type 0 to cancel.");
                 for (int i = 0; i < players.length; i++) {
                     System.out.println((i+1) + ". " + players[i].getName());
                 }
                 choice = sc.nextInt();
 
                 try {
-                    nominator = players[choice-1];
+                    if(players[choice-1].getCanNominate()) {
+                        nominator = players[choice-1];
+                    } else {
+                        System.out.println("That player can't nominate!");
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
+                    if(choice == 0) {
+                        System.out.println("Cancelling nomination...");
+                        return false;
+                    }
                     System.out.println("Invalid option. Please choose a number from the list.");
                 }
             } while (nominator == null);
 
             do { 
-                System.out.println("Which player is " + nominator + " nominating?");
+                System.out.println("Which player is " + nominator + " nominating? Type 0 to cancel.");
                 for (int i = 0; i < players.length; i++) {
                     System.out.println((i+1) + ". " + players[i].getName());
                 }
                 choice = sc.nextInt();
 
                 try {
-                    nominator = players[choice-1];
+                    if(players[choice-1].getCanBeNominated()) {
+                        nominee = players[choice-1];
+                    } else {
+                        System.out.println("That player can't be nominated!");
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
+                    if(choice == 0) {
+                        System.out.println("Cancelling nomination...");
+                        return false;
+                    }
                     System.out.println("Invalid option. Please choose a number from the list.");
                 }
             } while (nominee == null);
@@ -394,11 +446,34 @@ public class Game {
         }
 
         if(nominee.getCharacter().getName().equals("Virgin")) {
-            // TODO virgin execution
-            return true;
+            if(nominator.getCharacter().getCharacterType() == 't' && !nominee.getPoisoned() && nominee.getCharacter().getCanAct()) {
+                votesPerNomination.put(nominator, -1);
+                return true;
+            } else if (nominator.getCharacter().getName().equals("Spy") && nominee.getCharacter().getCanAct() && 
+                       !nominee.getPoisoned() && !nominator.getPoisoned()) {
+                boolean spyProc = false;
+                boolean validChoice = false;
+                while(validChoice) {
+                    System.out.println("Should the Spy be executed by the Empath ability? (y/n) ");
+                    String spyProcChoice = sc.nextLine();
+                    switch(spyProcChoice.toLowerCase()){
+                        case "y":
+                            spyProc = true;
+                        case "n": 
+                            validChoice = true;
+                        default:
+                            break;
+                    }
+                }
+                if(spyProc) {
+                    votesPerNomination.put(nominator, -1);
+                    return true;
+                }
+            }
         }
 
         System.out.print("There has been a nomination on " + nominee.getName() + ". Allow the prosecution to speak, then allow the defense to speak. Press enter to continue and tally the vote.");
+        sc.nextLine();
         votesPerNomination.put(nominee, tallyVotes(sc, nominee));
 
         nominator.afterNomination();
@@ -407,15 +482,50 @@ public class Game {
     }
 
     private int tallyVotes(Scanner sc, Player nominee) {
+        // tally required votes
+        int alivePlayers = 0;
+        for(Player player : players) {
+            if(player.getIsAlive()) alivePlayers++;
+        }
+        int reqVotes = Math.ceilDiv(alivePlayers, 2);
+        boolean isExecutionPrimed = false;
+        for(int voteCount : votesPerNomination.values()) {
+            if(voteCount >= reqVotes) {
+                reqVotes = voteCount+1;
+                isExecutionPrimed = true;
+            }
+        }
+        System.out.println("Call the vote for " + nominee.getName() + ".");
+        if(isExecutionPrimed) {
+            System.out.print((reqVotes-1) + " votes are needed to tie the vote, and ");
+            System.out.println(reqVotes + " votes are needed to put them on the block.");
+        } else {
+            System.out.println(reqVotes + " votes are needed to put them on the bock.");
+        }
+
         int totalVotes = 0;
         for (Player player : players) {
             String choice;
             do {
-                System.out.print("Is " + player.getName() + " going to vote for " + nominee.getName() + "? (y/n) ");
-                choice = sc.nextLine();
+                if(player.canVote()) {
+                    System.out.print("Is " + player.getName() + " going to vote for " + nominee.getName() + "?");
+                    if(!player.getIsAlive()) System.out.print(" This would be using their ghost vote.");
+                    System.out.print(" (y/n) ");
+                    choice = sc.nextLine();
+                } else {
+                    choice = "n";
+                }
             } while(!choice.toLowerCase().equals("y") && !choice.toLowerCase().equals("n"));
-            if(choice.toLowerCase().equals("y")) totalVotes++;
+            if(choice.toLowerCase().equals("y")) {
+                totalVotes++;
+                if(!player.getIsAlive()) player.useGhostVote();
+            }
         }
+
+        System.out.print("There were a total of " + totalVotes + " votes. ");
+        if(totalVotes >= reqVotes) System.out.print(nominee.getName() + " is now up for execution. ");
+        System.out.print("Press enter to continue. ");
+        sc.nextLine();
         return totalVotes;
     }
     

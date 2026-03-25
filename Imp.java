@@ -40,7 +40,7 @@ public class Imp extends PlayerCharacter {
                                             break;
                                     }
                                 }
-                            }
+                            } else killed = true;
                         } else killed = true;
                     }
                 }
