@@ -69,5 +69,9 @@ public class PlayerCharacter {
     
     public void setCanAct(boolean a) { canAct = a; }
 
-    public void useAbility(Scanner sc, Game game, Random rand) {}
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility) {}
+
+    public void upkeepDusk(Scanner sc, Game game, Random rand) {}
+
+    public void upkeepDawn(Scanner sc, Game game, Random rand) {}
 }

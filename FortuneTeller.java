@@ -26,7 +26,7 @@ public class FortuneTeller extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             if (redHerring == null){
                 setRedHerring(sc, game.getPlayers());

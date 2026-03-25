@@ -10,7 +10,7 @@ public class Chef extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             int borderingPlayers = 0;
             Player[] players = game.getPlayers();

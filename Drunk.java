@@ -33,14 +33,14 @@ public class Drunk extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             if (fakeRole == null){
                 setFakeRole(sc, game);
             }
             
             System.out.println("This is the action of a drunk, and is therefore useless/incorrect");
-            fakeRole.useAbility(sc, game, rand);
+            fakeRole.useAbility(sc, game, rand, true);
         }
     }
 }

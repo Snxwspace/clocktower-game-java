@@ -5,12 +5,12 @@ public class Imp extends PlayerCharacter {
 
     public Imp(char charType, String name) {
         super(charType, name);
-        super.canAct = false;
+        super.canAct = true;
         super.picksPlayer = true;
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             boolean killed = false;
             String message = "Who would they like to kill?";
@@ -31,7 +31,7 @@ public class Imp extends PlayerCharacter {
                                             isValid = true;
                                             break;
                                         case 2:
-                                            player.kill();
+                                            if(!badAbility) player.kill();
                                             killed = true;
                                             isValid = true;
                                             break;

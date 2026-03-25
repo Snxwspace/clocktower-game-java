@@ -203,10 +203,9 @@ public class Controller {
                 break;
         }
 
-        // TODO filling in the player information (requires PlayerCharacter, Player)
-        // choice between rigging the bag and randomly giving characters?
-        
         game.runGame(sc, charactersInPlay);
+
+        sc.close();
     }
 
     public static PlayerCharacter choosePlayerCharacter(ArrayList<PlayerCharacter> choices, Scanner sc) {
@@ -249,7 +248,7 @@ public class Controller {
 
         // Misc. 1
         troubleBrewing.addNewCharacter(new Spy('m', "Spy"), true, true);
-        troubleBrewing.addNewCharacter(new Passive('m', "Scarlet Woman"), false, false);
+        troubleBrewing.addNewCharacter(new ScarletWoman('m', "Scarlet Woman"), false, false);
         troubleBrewing.addNewCharacter(new Butler('o', "Butler"), true, true);
 
         // Killing roles
@@ -269,8 +268,8 @@ public class Controller {
         troubleBrewing.addNewCharacter(new Passive('t', "Virgin"), false, false);
         troubleBrewing.addNewCharacter(new Slayer('t', "Slayer"), false, false);
         troubleBrewing.addNewCharacter(new Soldier('t', "Soldier"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('t', "Mayor"), false, false);
-        troubleBrewing.addNewCharacter(new Passive('o', "Drunk"), false, false);
+        troubleBrewing.addNewCharacter(new Mayor('t', "Mayor"), false, false);
+        troubleBrewing.addNewCharacter(new Drunk('o', "Drunk"), false, false);
         troubleBrewing.addNewCharacter(new Recluse('o', "Recluse"), false, false);
         troubleBrewing.addNewCharacter(new Saint('o', "Saint"), false, false);
         troubleBrewing.addNewCharacter(new Baron('m', "Baron"), false, false);

@@ -10,7 +10,7 @@ public class Librarian extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             boolean spyChance = false;
             for (Player player : game.getPlayers()) {

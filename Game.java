@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ public class Game {
     private boolean isNight;
     private boolean isFirstNight;
     private Script currentScript;
+    private HashMap<Player,Integer> votesPerNomination;
 
     /**
      * Constructor for Game objects.
@@ -28,6 +30,7 @@ public class Game {
         currentScript = script;
         isNight = true;
         isFirstNight = true;
+        votesPerNomination = new HashMap<>(numPlayers);
     }
 
     /**
@@ -44,6 +47,8 @@ public class Game {
             "It does not matter which player you start with."
         );
         for(int i = 0; i < players.length; i++) {
+            System.out.print("Press enter to continue.");
+            sc.nextLine();
             System.out.print("Player " + (i+1) + " Name: ");
             String name = sc.nextLine();
             // probably more things to set up Player objects
@@ -66,11 +71,10 @@ public class Game {
      * @return  player  Initialized Player object with the chosen role
      */
     private Player rigBag(Scanner sc, ArrayList<PlayerCharacter> availableCharacters, String playerName) {
-        sc.nextLine();  // make sure at the start of any functions to clear whatever buffer is left over
         int choice;
         Player player = null;
         while(player == null) {
-            System.out.println("How would you like to modify what character " + playerName + "gets?");
+            System.out.println("How would you like to modify what character " + playerName + " gets?");
             System.out.println("1. Randomly choose an available character");
             System.out.println("2. Manually select an available character");
             System.out.println("3. Remove available characters, then randomly choose from what's left");
@@ -83,7 +87,7 @@ public class Game {
                 case 2:
                     int characterChoice;
                     do {
-                        System.out.println("Which character would you like " + playerName + "to get?");
+                        System.out.println("Which character would you like " + playerName + " to get?");
                         for(int i = 0; i < availableCharacters.size(); i++) {
                             System.out.println(i+1 + ". " + availableCharacters.get(i).getName());
                         }
@@ -235,32 +239,10 @@ public class Game {
         }while(randomization != 1 && randomization != 2);
         
         do{
-            if (isFirstNight){
-                System.out.println("Awaken the Minion(s), show them who the Demon is, and put them to sleep");    
-                System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
-                //TODO: Demon Bluffs
-            
-                for (int i = 0; i < players.length; i++){ 
-                    if (players[i].getCharacter().getName().equals(currentScript.getFirstNightOrder().get(i).getName())){
-                        System.out.println("\n" + players[i].getName() + "'s turn as the " + players[i].getCharacter().getName() + ":");
-                        if (players[i].getPoisoned() == true){
-                            System.out.println("They are poisoned, and is therefore useless/incorrect.");
-                        }
-                        players[i].getCharacter().useAbility(sc, this, rand);
-                    }
-                }
-                isFirstNight = false;
-            }else{
-                for (int i = 0; i < players.length; i++){ 
-                    if (players[i].getCharacter().getName().equals(currentScript.getOtherNightOrder().get(i).getName())){
-                        System.out.println("\n" + players[i].getName() + "'s turn as the " + players[i].getCharacter().getName() + ":");
-                        if (players[i].getPoisoned() == true){
-                            System.out.println("They are poisoned, and is therefore useless/incorrect.");
-                        }
-                        players[i].getCharacter().useAbility(sc, this, rand);
-                    }
-                }
-            }
+            night(sc);
+            dawn(sc);
+            day(sc);
+            dusk(sc);
         }while(gameWon == false);
     }
     
@@ -283,4 +265,144 @@ public class Game {
 
     public Player[] getPlayers() { return players; }
     public Script getScript(){ return currentScript; }
+
+    private void night(Scanner sc) {
+        if (isFirstNight){
+            if(players.length >= 7) {
+                System.out.println("Awaken the Minion(s), show them who the Demon is, and put them to sleep");    
+                System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
+                //TODO: Demon Bluffs
+            }
+            
+            for(PlayerCharacter character : currentScript.getFirstNightOrder()) {
+                for(Player player : players) {
+                    if (player.getCharacter().getName().equals(character.getName())){
+                        System.out.println("\n" + player.getName() + "'s turn as the " + player.getCharacter().getName() + ":");
+                        boolean badAbility = false;
+                        if (player.getPoisoned() == true){
+                            System.out.println("They are poisoned, and therefore, you may lie to them, or their ability may not work.");
+                            badAbility = true;
+                        } 
+                        player.getCharacter().useAbility(sc, this, rand, badAbility);
+                        System.out.print("Press enter to continue.");
+                        sc.nextLine();
+                    }
+                }
+            }
+            isFirstNight = false;
+        } else {
+            for(PlayerCharacter character : currentScript.getOtherNightOrder()) {
+                for(Player player : players) {
+                    if (player.getCharacter().getName().equals(character.getName())){
+                        System.out.println("\n" + player.getName() + "'s turn as the " + player.getCharacter().getName() + ":");
+                        boolean badAbility = false;
+                        if (player.getPoisoned() == true){
+                            System.out.println("They are poisoned, and therefore, you may lie to them, or their ability may not work.");
+                            badAbility = true;
+                        }
+                        player.getCharacter().useAbility(sc, this, rand, badAbility);
+                    }
+                }
+            }
+        }
+    }
+
+    private void dawn(Scanner sc) {
+        for(Player player : players) {
+            player.daybreak(sc, this, rand);
+        }
+        votesPerNomination.clear();
+    }
+
+    private void dusk(Scanner sc) {
+        for(Player player : players) {
+            player.nightfall(sc, this, rand);
+        }
+    }
+
+    private void day(Scanner sc) {
+        System.out.print("It is now day. ");
+        int choice = 0;
+        while(choice != 3) {
+            System.out.println("What would you like to do?");
+            System.out.println("1. Make a nomination");
+            System.out.println("2. A slayer shot is declared");
+            System.out.println("3. End the day");
+            choice = sc.nextInt();
+            switch(choice) {
+                case 1:
+                    boolean isExecuted = makeNomination(sc);
+                    if(isExecuted) return;
+                    break;
+                
+                case 2:
+                    break;
+
+                case 3:
+                    return;
+
+                default:
+                    System.out.println("Please choose an available option.");
+            }
+        }
+    }
+
+    private boolean makeNomination(Scanner sc) {
+        int choice;
+        boolean isFinal = false;
+        Player nominator = null;
+        Player nominee = null;
+        while(!isFinal) {
+            do { 
+                System.out.println("Which player is making a nomination?");
+                for (int i = 0; i < players.length; i++) {
+                    System.out.println((i+1) + ". " + players[i]);
+                }
+                choice = sc.nextInt();
+
+                try {
+                    nominator = players[choice-1];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Invalid option. Please choose a number from the list.");
+                }
+            } while (nominator != null);
+
+            do { 
+                System.out.println("Which player is " + nominator + " nominating?");
+                for (int i = 0; i < players.length; i++) {
+                    System.out.println((i+1) + ". " + players[i]);
+                }
+                choice = sc.nextInt();
+
+                try {
+                    nominator = players[choice-1];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Invalid option. Please choose a number from the list.");
+                }
+            } while (nominee != null);
+
+            sc.nextLine();
+            String confirmation;
+            do { 
+                System.out.print(nominator + " is nominating " + nominee + ". Is that correct? (y/n) ");
+                confirmation = sc.nextLine();
+            } while (!confirmation.toLowerCase().equals("y") && !confirmation.toLowerCase().equals("n"));
+
+            if(confirmation.toLowerCase().equals("y")) isFinal = true;
+        }
+
+        if(nominee.getCharacter().getName().equals("Virgin")) {
+            // TODO virgin execution
+            return true;
+        }
+
+
+        nominator.afterNomination();
+        nominee.afterNominated();
+        return false;
+    }
+
+    private int tallyVotes(Scanner sc) {
+
+    }
 }

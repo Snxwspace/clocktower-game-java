@@ -10,7 +10,7 @@ public class Slayer extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             boolean shot = false;
             do{
@@ -19,7 +19,7 @@ public class Slayer extends PlayerCharacter {
                 for (Player player : game.getPlayers()) {
                     if (player.getName().equals(target)) {
                         if (player.getCharacter().getBaseAlignment() == 'd') {
-                            player.kill();
+                            if(!badAbility) player.kill();
                         }
                         shot = true;
                     }

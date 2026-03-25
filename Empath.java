@@ -10,7 +10,7 @@ public class Empath extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             boolean spyChance = false;
             boolean recChance = false;
@@ -29,18 +29,18 @@ public class Empath extends PlayerCharacter {
             
             int counter = 1;    // how many seats away we're looking
             while(neighbor1 == null){
-                if(game.getPlayers()[pos%(game.getPlayers().length)-counter].getIsAlive() == false){
+                if(game.getPlayers()[(pos-counter+game.getPlayers().length)%(game.getPlayers().length)].getIsAlive() == false){
                     counter++;
                 }else{
-                    neighbor1 = game.getPlayers()[pos%(game.getPlayers().length)-counter];
+                    neighbor1 = game.getPlayers()[(pos-counter+game.getPlayers().length)%(game.getPlayers().length)];
                 }
             }
             counter = 1;
             while(neighbor2 == null){
-                if(game.getPlayers()[pos%(game.getPlayers().length)+counter].getIsAlive() == false){
+                if(game.getPlayers()[(pos+counter)%(game.getPlayers().length)].getIsAlive() == false){
                     counter++;
                 }else{
-                    neighbor2 = game.getPlayers()[pos%(game.getPlayers().length)+counter];
+                    neighbor2 = game.getPlayers()[(pos+counter)%(game.getPlayers().length)];
                 }
             }
 

@@ -10,7 +10,7 @@ public class Spy extends PlayerCharacter {
     }
     
     @Override
-    public void useAbility(Scanner sc, Game game, Random rand){
+    public void useAbility(Scanner sc, Game game, Random rand, boolean badAbility){
         if (canAct == true){
             System.out.println("Show the Spy the Grimoire.");
         }

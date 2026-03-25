@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * An instance of this class represents one player in a game of Blood on the Clocktower.
@@ -155,12 +156,15 @@ public class Player {
     /**
      * Resets everything that should be reset when the new day starts.
      */
-    public void daybreak() {
+    public void daybreak(Scanner sc, Game game, Random rand) {
         canBeNominated = true;
-        isProtected = false;
-        isPoisoned = false;
         if(isAlive) {
             canNominate = true;
         }
+        character.upkeepDawn(sc, game, rand);
+    }
+
+    public void nightfall(Scanner sc, Game game, Random rand) {
+        character.upkeepDusk(sc, game, rand);
     }
 }
