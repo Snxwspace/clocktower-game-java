@@ -205,6 +205,8 @@ public class Controller {
 
         // TODO filling in the player information (requires PlayerCharacter, Player)
         // choice between rigging the bag and randomly giving characters?
+        
+        game.runGame(sc, charactersInPlay);
     }
 
     public static PlayerCharacter choosePlayerCharacter(ArrayList<PlayerCharacter> choices, Scanner sc) {

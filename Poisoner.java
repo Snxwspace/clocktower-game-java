@@ -18,7 +18,7 @@ public class Poisoner extends PlayerCharacter {
                 String poisonee = sc.nextLine();
                 for (Player player : game.getPlayers()) {
                     if (player.getName().equals(poisonee)) {
-                        player.setProtected(true);
+                        player.setPoisoned(true);
                         poison = true;
                     }
                 }

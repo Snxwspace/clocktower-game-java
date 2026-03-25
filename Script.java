@@ -13,6 +13,11 @@ public class Script {
         characters = new ArrayList<>();
         firstNightOrder = new ArrayList<>();
         otherNightOrder = new ArrayList<>();
+        
+        townsfolk = new ArrayList<>();
+        outsiders  = new ArrayList<>();
+        minions = new ArrayList<>();
+        demons = new ArrayList<>();
     }
 
     public void addNewCharacter(PlayerCharacter character, boolean canActFirstNight, boolean canActOtherNights) {
