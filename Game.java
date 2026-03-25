@@ -216,7 +216,37 @@ public class Game {
         }
         return player;
     }
-
+    
+    public void runGame(Scanner sc, ArrayList<PlayerCharacter> charactersInPlay) {
+        boolean gameWon = false;
+        int randomization = 0;
+        
+        do{
+            System.out.println("Would you like the bag to be fully randomized, or choose things yourself (1: Randomized, 2: Choose)");
+            randomization = sc.nextInt();
+            switch(randomization){
+                case 1:
+                    fillPlayerArray(sc, charactersInPlay, true);
+                    break;
+                case 2:
+                    fillPlayerArray(sc, charactersInPlay, false);
+                    break;
+            }
+        }while(randomization!= 1 || randomization!= 2);
+        
+        do{
+            System.out.println("Awaken the Minion(s), show them who the Demon is, and put them to sleep");    
+            System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
+            //TODO: Demon Bluffs
+            
+            for (int i = 0; i < players.length; i++){ //Poisoner's Turn
+                if (players[i].getCharacter().getName().equals("Poisoner")){
+                    players[i].getCharacter().useAbility(sc, this, rand);
+                }
+            }
+        }while(gameWon == false);
+    }
+    
     /**
      * Prints the current list of available characters to be chosen on one line.
      * 
