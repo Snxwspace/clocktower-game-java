@@ -19,6 +19,7 @@ public class Game {
     private boolean isFirstNight;
     private Script currentScript;
     private HashMap<Player,Integer> votesPerNomination;
+    private Player lastExecuted;
 
     /**
      * Constructor for Game objects.
@@ -31,6 +32,7 @@ public class Game {
         isNight = true;
         isFirstNight = true;
         votesPerNomination = new HashMap<>(numPlayers);
+        lastExecuted = null;
     }
 
     /**
@@ -356,7 +358,7 @@ public class Game {
             do { 
                 System.out.println("Which player is making a nomination?");
                 for (int i = 0; i < players.length; i++) {
-                    System.out.println((i+1) + ". " + players[i]);
+                    System.out.println((i+1) + ". " + players[i].getName());
                 }
                 choice = sc.nextInt();
 
@@ -365,12 +367,12 @@ public class Game {
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Invalid option. Please choose a number from the list.");
                 }
-            } while (nominator != null);
+            } while (nominator == null);
 
             do { 
                 System.out.println("Which player is " + nominator + " nominating?");
                 for (int i = 0; i < players.length; i++) {
-                    System.out.println((i+1) + ". " + players[i]);
+                    System.out.println((i+1) + ". " + players[i].getName());
                 }
                 choice = sc.nextInt();
 
@@ -379,7 +381,7 @@ public class Game {
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Invalid option. Please choose a number from the list.");
                 }
-            } while (nominee != null);
+            } while (nominee == null);
 
             sc.nextLine();
             String confirmation;
@@ -396,13 +398,26 @@ public class Game {
             return true;
         }
 
+        System.out.print("There has been a nomination on " + nominee.getName() + ". Allow the prosecution to speak, then allow the defense to speak. Press enter to continue and tally the vote.");
+        votesPerNomination.put(nominee, tallyVotes(sc, nominee));
 
         nominator.afterNomination();
         nominee.afterNominated();
         return false;
     }
 
-    private int tallyVotes(Scanner sc) {
-
+    private int tallyVotes(Scanner sc, Player nominee) {
+        int totalVotes = 0;
+        for (Player player : players) {
+            String choice;
+            do {
+                System.out.print("Is " + player.getName() + " going to vote for " + nominee.getName() + "? (y/n) ");
+                choice = sc.nextLine();
+            } while(!choice.toLowerCase().equals("y") && !choice.toLowerCase().equals("n"));
+            if(choice.toLowerCase().equals("y")) totalVotes++;
+        }
+        return totalVotes;
     }
+    
+    public Player getLastExecuted() { return lastExecuted; }
 }
