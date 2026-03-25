@@ -240,9 +240,24 @@ public class Game {
                 System.out.println("Awaken the Demon, show them who the Minion(s) are, and put them to sleep");
                 //TODO: Demon Bluffs
             
-                for (int i = 0; i < players.length; i++){ //Poisoner's Turn
-                    if (players[i].getCharacter().getName().equals("Poisoner")){
-                        players[i].getCharacter().useAbility(sc, this, rand);//currentScript
+                for (int i = 0; i < players.length; i++){ 
+                    if (players[i].getCharacter().getName().equals(currentScript.getFirstNightOrder().get(i).getName())){
+                        System.out.println("\n" + players[i].getName() + "'s turn as the " + players[i].getCharacter().getName() + ":");
+                        if (players[i].getPoisoned() == true){
+                            System.out.println("They are poisoned, and is therefore useless/incorrect.");
+                        }
+                        players[i].getCharacter().useAbility(sc, this, rand);
+                    }
+                }
+                isFirstNight = false;
+            }else{
+                for (int i = 0; i < players.length; i++){ 
+                    if (players[i].getCharacter().getName().equals(currentScript.getOtherNightOrder().get(i).getName())){
+                        System.out.println("\n" + players[i].getName() + "'s turn as the " + players[i].getCharacter().getName() + ":");
+                        if (players[i].getPoisoned() == true){
+                            System.out.println("They are poisoned, and is therefore useless/incorrect.");
+                        }
+                        players[i].getCharacter().useAbility(sc, this, rand);
                     }
                 }
             }

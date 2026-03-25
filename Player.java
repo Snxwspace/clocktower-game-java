@@ -157,6 +157,8 @@ public class Player {
      */
     public void daybreak() {
         canBeNominated = true;
+        isProtected = false;
+        isPoisoned = false;
         if(isAlive) {
             canNominate = true;
         }
