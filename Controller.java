@@ -75,7 +75,7 @@ public class Controller {
         int reqOutsiders;
         if(numPlayers >= 7) {
             reqMinions = Math.floorDiv(numPlayers-1, 3)-1;
-            reqOutsiders = numPlayers-1 % 3;
+            reqOutsiders = (numPlayers-1) % 3;
         } else {
             reqMinions = 1;
             reqOutsiders = numPlayers+1 % 3;

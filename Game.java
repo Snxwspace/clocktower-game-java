@@ -44,7 +44,7 @@ public class Game {
             "It does not matter which player you start with."
         );
         for(int i = 0; i < players.length; i++) {
-            System.out.print("Player " + i+1 + " Name: ");
+            System.out.print("Player " + (i+1) + " Name: ");
             String name = sc.nextLine();
             // probably more things to set up Player objects
             if(!isFullRandom) {
@@ -232,7 +232,7 @@ public class Game {
                     fillPlayerArray(sc, charactersInPlay, false);
                     break;
             }
-        }while(randomization!= 1 || randomization!= 2);
+        }while(randomization != 1 && randomization != 2);
         
         do{
             if (isFirstNight){
