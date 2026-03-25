@@ -22,7 +22,7 @@ public class Chef extends PlayerCharacter {
                 if((players[i%(numPlayers)].getCharacter().getName().equals("Recluse") && players[i%(numPlayers)+1].getAlignment() == 'e')
                  || players[i%(numPlayers)].getAlignment() == 'e' && players[i%(numPlayers)+1].getCharacter().getName().equals("Recluse")){
                     boolean validChoice = false;
-                    while(true) {
+                    while(validChoice) {
                         System.out.println("Should the recluse count as evil? (1 = yes, 2 = no)");
                         int choice = sc.nextInt();
                         switch(choice){
