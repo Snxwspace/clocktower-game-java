@@ -49,7 +49,7 @@ public class Game {
             "It does not matter which player you start with."
         );
         for(int i = 0; i < players.length; i++) {
-            System.out.print("Press enter to continue.");
+            System.out.println("Press enter to continue.");
             sc.nextLine();
             System.out.print("Player " + (i+1) + " Name: ");
             String name = sc.nextLine();
@@ -95,7 +95,7 @@ public class Game {
                         }
                         System.out.println("Type 0 to cancel.");
                         characterChoice = sc.nextInt();
-                    } while(characterChoice < 0 || characterChoice >= availableCharacters.size());
+                    } while(characterChoice < 0 || characterChoice > availableCharacters.size());
                     if(characterChoice != 0) {
                         player = new Player(playerName, availableCharacters.get(characterChoice-1));
                     }
@@ -116,7 +116,7 @@ public class Game {
                         
                         printCharacters(newBag);
 
-                        while(it.hasNext()) {
+                        while(it.hasNext() && !isFinished) {
                             boolean isValid = false;
                             PlayerCharacter character = it.next();
 
@@ -245,6 +245,8 @@ public class Game {
 
         int j = 0;
         do {
+            System.out.println();
+
             switch (j) {
                 case 0:
                     night(sc);
@@ -261,21 +263,31 @@ public class Game {
             }
 
             int alivePlayers = 0;
+            boolean hasMayor = false;
             for(Player player : players) {
-                if(player.getIsAlive()) alivePlayers++;
+                if(player.getIsAlive()) {
+                    alivePlayers++;
+                    if(player.getCharacter().getName().equals("Mayor")) hasMayor = true;
+                }
             }
 
             if(!checkAliveDemon(sc)) {
                 gameWon = true;
                 System.out.println("The demon is dead! The game ends, and the good team wins.");
-            } else if (lastExecuted.getCharacter().getName().equals("Saint")) {
-                gameWon = true;
-                System.out.println("The saint has been executed! The game ends, and the evil team wins.");
             } else if (alivePlayers < 3) {
                 gameWon = true;
                 System.out.println("There are less than three players alive, and the demon still lives!");
                 System.out.println("The game ends, and the evil team wins.");
-            }
+            } else if (alivePlayers == 3 && hasMayor && j == 3 && lastExecuted == null) {
+                gameWon = true;
+                System.out.println("There are three players alive, no execution has occured, and the Mayor lives!");
+                System.out.println("The game ends, and the good team wins.");
+            } else if (lastExecuted != null) {
+                if(lastExecuted.getCharacter().getName().equals("Saint")) {
+                    gameWon = true;
+                    System.out.println("The saint has been executed! The game ends, and the evil team wins.");
+                }
+            }  
             j++;
             j %= 4;
         }while(gameWon == false);
@@ -310,9 +322,8 @@ public class Game {
             }
             
             for(PlayerCharacter character : currentScript.getFirstNightOrder()) {
-                boolean preventDuplicateAbility = false;
                 for(Player player : players) {
-                    if (player.getCharacter().getName().equals(character.getName()) && player.getCharacter().getCanAct() && !preventDuplicateAbility) {
+                    if (player.getCharacter().getName().equals(character.getName()) && player.getCharacter().getCanAct()) {
                         System.out.println("\n" + player.getName() + "'s turn as the " + player.getCharacter().getName() + ":");
                         boolean badAbility = false;
                         if (player.getPoisoned() == true) {
@@ -322,11 +333,6 @@ public class Game {
                         player.getCharacter().useAbility(sc, this, rand, badAbility);
                         System.out.print("Press enter to continue.");
                         sc.nextLine();
-
-                        // i love hardcoding random edge cases asldkjgaotnoer
-                        if(character.getName().equals("Imp")) {
-                            preventDuplicateAbility = false;
-                        }
                     }
                 }
             }
@@ -334,7 +340,8 @@ public class Game {
         } else {
             for(PlayerCharacter character : currentScript.getOtherNightOrder()) {
                 for(Player player : players) {
-                    if (player.getCharacter().getName().equals(character.getName())){
+                    boolean preventDuplicateAbility = false;
+                    if (player.getCharacter().getName().equals(character.getName()) && !preventDuplicateAbility){
                         System.out.println("\n" + player.getName() + "'s turn as the " + player.getCharacter().getName() + ":");
                         boolean badAbility = false;
                         if (player.getPoisoned() == true){
@@ -342,6 +349,13 @@ public class Game {
                             badAbility = true;
                         }
                         player.getCharacter().useAbility(sc, this, rand, badAbility);
+                        System.out.print("Press enter to continue.");
+                        sc.nextLine();
+
+                        // i love hardcoding random edge cases asldkjgaotnoer
+                        if(character.getName().equals("Imp")) {
+                            preventDuplicateAbility = true;
+                        }
                     }
                 }
             }
@@ -375,10 +389,9 @@ public class Game {
             }
         }
 
-        // TODO saint execution ending
-            // use lastExecuted probably
         if(onBlockPlayer == null) {
             System.out.println("No one was nominated!");
+            lastExecuted = null;
         } else if(votesPerNomination.get(onBlockPlayer) == -1) {
             System.out.println(onBlockPlayer.getName() + " is immediately executed.");
             System.out.println("The day immediately ends.");
@@ -386,8 +399,10 @@ public class Game {
             onBlockPlayer.kill();
         } else if(votesPerNomination.get(onBlockPlayer) < Math.ceilDiv(alivePlayers, 2)) {
             System.out.println("There were not enough votes to execute someone!");
+            lastExecuted = null;
         } else if(isVoteTied) {
             System.out.println("The vote was tied-- no executions tonight.");
+            lastExecuted = null;
         } else {
             System.out.println("With " + votesPerNomination.get(onBlockPlayer) + " votes, " + onBlockPlayer.getName() + " is executed!");
             lastExecuted = onBlockPlayer;
@@ -402,7 +417,7 @@ public class Game {
     private void day(Scanner sc) {
         System.out.print("It is now day. ");
         int choice = 0;
-        while(choice != 3) {
+        while(choice != 4) {
             System.out.println("What would you like to do?");
             System.out.println("1. Make a nomination");
             System.out.println("2. View player list");
@@ -487,7 +502,7 @@ public class Game {
             } while (nominator == null);
 
             do { 
-                System.out.println("Which player is " + nominator + " nominating? Type 0 to cancel.");
+                System.out.println("Which player is " + nominator.getName() + " nominating? Type 0 to cancel.");
                 for (int i = 0; i < players.length; i++) {
                     System.out.println((i+1) + ". " + players[i].getName());
                 }
@@ -511,7 +526,7 @@ public class Game {
             sc.nextLine();
             String confirmation;
             do { 
-                System.out.print(nominator + " is nominating " + nominee + ". Is that correct? (y/n) ");
+                System.out.print(nominator.getName() + " is nominating " + nominee.getName() + ". Is that correct? (y/n) ");
                 confirmation = sc.nextLine();
             } while (!confirmation.toLowerCase().equals("y") && !confirmation.toLowerCase().equals("n"));
 
@@ -605,7 +620,6 @@ public class Game {
     public Player getLastExecuted() { return lastExecuted; }
 
     private boolean checkAliveDemon(Scanner sc) {
-        // TODO use this to check end game conditions
         Player scarletWoman = null;
         for (Player player : players) {
             if(player.getCharacter().getCharacterType() == 'd' && player.getIsAlive()) {
@@ -632,6 +646,7 @@ public class Game {
             else aliveStr = "Dead";
             System.out.println(player.getName() + ": " + player.getCharacter().getName() + " (" + aliveStr + ")");
         }
+        System.out.println();
     }
     
     private void printPlayers(Player[] playerList) {
@@ -641,5 +656,6 @@ public class Game {
             else aliveStr = "Dead";
             System.out.println(player.getName() + ": " + player.getCharacter().getName() + " (" + aliveStr + ")");
         }
+        System.out.println();
     }
 }

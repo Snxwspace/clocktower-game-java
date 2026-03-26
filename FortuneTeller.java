@@ -18,7 +18,7 @@ public class FortuneTeller extends PlayerCharacter {
             System.out.println("Who would you like to be their red herring?");
             String herring = sc.nextLine();
             for (Player player : players) {
-                if (player.getName().equals(herring) && player.getCharacter().getBaseAlignment() != 'e') {
+                if (player.getName().equals(herring)) {
                     redHerring = player;
                 }
             }

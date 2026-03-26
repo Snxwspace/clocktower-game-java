@@ -19,8 +19,8 @@ public class Chef extends PlayerCharacter {
                 if(players[i % numPlayers].getAlignment() == 'e' && players[(i+1) % numPlayers].getAlignment() == 'e'){
                     borderingPlayers++;
                 }
-                if((players[i%(numPlayers)].getCharacter().getName().equals("Recluse") && players[i%(numPlayers)+1].getAlignment() == 'e')
-                 || players[i%(numPlayers)].getAlignment() == 'e' && players[i%(numPlayers)+1].getCharacter().getName().equals("Recluse")){
+                if((players[i%(numPlayers)].getCharacter().getName().equals("Recluse") && players[(i+1)%(numPlayers)].getAlignment() == 'e')
+                 || players[i%(numPlayers)].getAlignment() == 'e' && players[(i+1)%(numPlayers)].getCharacter().getName().equals("Recluse")){
                     boolean validChoice = false;
                     while(validChoice) {
                         System.out.println("Should the recluse count as evil? (1 = yes, 2 = no)");

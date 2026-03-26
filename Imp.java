@@ -20,10 +20,10 @@ public class Imp extends PlayerCharacter {
                 String victim = sc.nextLine();
                 for (Player player : game.getPlayers()) {
                     if (player.getName().equals(victim)) {
-                        if (player.getProtected() == false || (player.getCharacter().getName().equals("Soldier") && player.getPoisoned())) {
+                        if (!player.getProtected() || (player.getCharacter().getName().equals("Soldier") && player.getPoisoned())) {
                             if (player.getCharacter().getName().equals("Mayor")) {
                                 boolean isValid = false;
-                                while(isValid) {
+                                while(!isValid) {
                                     System.out.println("Would you like to switch the kill? (1=yes, 2=no)");
                                     int mayor = sc.nextInt();
                                     switch (mayor) {
@@ -71,7 +71,10 @@ public class Imp extends PlayerCharacter {
                                     if(starPass != null) starPass.setCharacter(new Imp('d', "Imp"));
                                 }
                                 killed = true;
-                            } else killed = true;
+                            } else {
+                                player.kill();
+                                killed = true;
+                            }
                         } else killed = true;
                     }
                 }

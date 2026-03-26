@@ -129,6 +129,10 @@ public class Controller {
                                     break;
                             }
                             charactersInPlay.add(characterToAdd);
+                            if(characterToAdd.getName().equals("Baron")) {
+                                reqTownsfolk -= 2;
+                                reqOutsiders += 2;
+                            }
                             break;
                         case 2:
                             PlayerCharacter characterToRemove = choosePlayerCharacter(charactersInPlay, sc);
@@ -147,6 +151,10 @@ public class Controller {
                                     break;
                             }
                             charactersInPlay.remove(characterToRemove);
+                            if(characterToRemove.getName().equals("Baron")) {
+                                reqTownsfolk += 2;
+                                reqOutsiders -= 2;
+                            }
                             break;
                         case 0:
                             sc.close();
@@ -155,11 +163,11 @@ public class Controller {
                             System.out.println("Invalid choice. Enter a number to make a decision.");
                     }
                 } while (
-                        charactersInPlay.size() != numPlayers &&
-                        townsfolk == reqTownsfolk &&
-                        outsiders == reqOutsiders &&
-                        minions == reqMinions &&
-                        demons == reqDemons
+                        charactersInPlay.size() != numPlayers ||
+                        townsfolk != reqTownsfolk ||
+                        outsiders != reqOutsiders ||
+                        minions != reqMinions ||
+                        demons != reqDemons
                         );  
                 break;
             case 2:
@@ -223,7 +231,7 @@ public class Controller {
                 else if(type == 'o') charType = "Outsider";
                 else if(type == 'm') charType = "Minion";
                 else if(type == 'd') charType = "Demon";
-                System.out.println(i+1 + ". " + choices.get(i) + " (" + charType + ")");
+                System.out.println(i+1 + ". " + choices.get(i).getName() + " (" + charType + ")");
             }
             System.out.println("Make sure you scroll up to view all options!");
             System.out.print("Character chosen: ");
@@ -231,8 +239,7 @@ public class Controller {
             try {
                 chosenCharacter = choices.get(choice-1);
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("Invalid option. Press enter to continue.");
-                sc.nextInt();
+                System.out.println("Invalid option.");
             }
         } while(chosenCharacter == null);
         return chosenCharacter;

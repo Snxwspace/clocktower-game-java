@@ -18,7 +18,7 @@ public class Butler extends PlayerCharacter {
                 String master = sc.nextLine();
                 for (Player player : game.getPlayers()) {
                     if (player.getName().equals(master) && !(player.getCharacter().getName().equals("Butler"))) {
-                        System.out.print("The Butler will vote with " + player.getCharacter().getName());
+                        System.out.println("The Butler will vote with " + player.getName());
                         votable = true;
                     }
                 }
